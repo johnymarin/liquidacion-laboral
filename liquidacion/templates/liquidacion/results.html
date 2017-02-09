@@ -1,0 +1,244 @@
+{% extends 'liquidacion/base.html' %}
+{% block content %}
+<h1> Liquidacion de Prestaciones Sociales</h1>
+<div name="datos_empleador">
+    <h2>Datos del empleador:</h2>
+    <table class="pure-table pure-table-striped">
+        <thead>
+            <tr><th>Datos del Empleador:</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Razon Social:</th>
+                <td>{{ liquidacion.empresa }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr> ---
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div name="datos_empleado">
+    <h2>Datos del empleado</h2>
+    <table class="pure-table pure-table-striped">
+        <thead>
+            <tr>
+                <th>Datos del Empleado</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <th>Nombre Empleado:</th>
+                <td> {{ liquidacion.empleado}} </td>
+            </tr>
+            <tr>
+                <th>Fecha Inicio:</th>
+                <td>{{liquidacion.fecha_inicio}}</td>
+            </tr>
+            <tr>
+                <th>Fecha Terminacion:</th>
+                <td>{{liquidacion.fecha_liquidacion}}</td>
+            </tr>
+            <tr>
+                <th>Total Dias Laborados:</th>
+                <td>{{liquidacion.dias_trabajados}}</td>
+            </tr>
+            <tr>
+                <th>Causal Terminacion:</th>
+                <td>{{liquidacion.causal_terminacion}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div name="salarios">
+    <h2>Salarios</h2>
+    <table class="pure-table pure-table-striped">
+        <thead>
+            <tr>
+                <th>Salarios</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Salario Basico:</th>
+                <td>{{liquidacion.salario_basico}}</td>
+            </tr>
+            <tr>
+                <th>Auxilo Transporte:</th>
+                <td>{{liquidacion.pago_auxilio_transporte}}</td>
+            </tr>
+            <tr>
+                <th>Promedio Horas Extra:</th>
+                <td>{{liquidacion.pagos_extras}}</td>
+            </tr>
+            <tr>
+                <th>Bonificaciones</th>
+                <td>{{liquidacion.bonificaciones}}</td>
+            </tr>
+            <tr>
+                <th>Otros Pagos Salariales:</th>
+                <td>{{liquidacion.otros_ingresos_salariales}}</td>
+            </tr>
+            <tr>
+                <th>Salario Base Liquidacion:</th>
+                <td>{{liquidacion.subtotal_salarios}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div name="liquidacion_prestaciones">
+    <h2>Liquidacion De Las Prestaciones:</h2>
+    <table class="pure-table pure-table-striped">
+        <thead>
+            <tr>
+                <th>Liquidacion de Prestaciones:</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Cesantias:</th>
+                <td>{{liquidacion.pago_cesantias}}</td>
+            </tr>
+            <tr>
+                <th>Intereses A Las Cesantias:</th>
+                <td>{{liquidacion.pago_intereses_cesantias}}</td>
+            </tr>
+            <tr>
+                <th>Prima De Junio:</th>
+                <td>{{liquidacion.pago_prima_junio}}</td>
+            </tr> <tr>
+                <th>Prima De Diciembre:</th>
+                <td>{{liquidacion.pago_prima_diciembre}}</td>
+            </tr>
+            <tr>
+                <th>Vacaciones:</th>
+                <td>{{liquidacion.pago_vacaciones}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Total Liquidacion Prestaciones:</th>
+                <td>{{liquidacion.subtotal_prestaciones}}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div name="nomina">
+    <h2>Nomina</h2>
+    <table class="pure-table pure-table-striped">
+        <thead>
+            <tr>
+                <th>Nomina:</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Salario Por Pagar:</th>
+                <td>{{liquidacion.pago_salarios}}</td>
+            </tr>
+            <tr>
+                <th>Pago Extras:</th>
+                <td>{{liquidacion.pago_extras}}</td>
+            </tr>
+            <tr>
+                <th>Pago Bonificaciones:</th>
+                <td>{{liquidacion.bonificaciones}}</td>
+            </tr>
+            <tr>
+                <th>Pago Otros Ingresos:</th>
+                <td>{{liquidacion.otros_ingresos_salariales}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Total Salarios:</th>
+                <td>{{liquidacion.subtotal_salarios}}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div name="indemnizacion">
+    <h2>Indemnizacion</h2>
+    <table class="pure-table pure-table-striped">
+        <thead>
+            <tr>
+                <th>Indemnizacion:</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th>Indemizacion Por Despido Sin Justa Causa:</th>
+            <td>{{liquidacion.pago_indemizacion}}</td>
+        </tr>
+        <tr>
+            <th>Indemnizacion Por No Pago De Prestaciones(Moratoria):</th>
+            <td>{{liquidacion.pago_indemizacion_moratoria}}</td>
+        </tr>
+        <tr>
+            <th>Indemnizacion Por No Consignacion Cesantias:</th>
+            <td>{{liquidacion.pago_indemnizacion_cesantias}}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>Total Indemnizaciones:</th>
+            <td>{{liquidacion.subtotal_indemnizaciones}}</td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+<div name="deducciones">
+    <h2>Deducciones y Retenciones</h2>
+    <table class="pure-table pure-table-striped">
+        <thead>
+            <tr>
+                <th>Deducciones:</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Deduccion Por Salud:</th>
+                <td>{{liquidacion.deduccion_salud}}</td>
+            </tr>
+            <tr>
+                <th>Deduccion Por Pensiones:</th>
+                <td>{{liquidacion.deduccion_pension}}</td>
+            </tr>
+            <tr>
+                <th>Deduccion Por Retencion En La Fuente:</th>
+                <td>{{liquidacion.deduccion_retefuente_indemnizacion}}</td>
+            </tr>
+            <tr>
+                <th>Deduccion Por Prestamos:</th>
+                <td>{{liquidacion.deduccion_prestamos}}</td>
+            </tr>
+            <tr>
+                <th>Deduccion Por Aportes Fondo Empleados:</th>
+                <td>{{liquidacion.deduccion_fondo_empleados}}</td>
+            </tr>
+            <tr>
+                <th>Deduccion Por Cooperativas:</th>
+                <td>{{liquidacion.deduccion_cooperativas}}</td>
+            </tr>
+            <tr>
+                <th>Deduccion Por Libranzas:</th>
+                <td>{{liquidacion.deduccion_libranzas}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Total Deducciciones A Los Pagos:</th>
+                <td>{{liquidacion.subtotal_deducciones}}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div name="Total">
+    <h2>Total Pagos:</h2>
+    <p>Total liquidacion a favor del empleado: <h3>{{liquidacion.total_liquidacion_a_favor_empleado}}</h3></p>
+</div>
+{% endblock %}

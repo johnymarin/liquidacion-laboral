@@ -1,0 +1,14 @@
+{% for error in form.non_field_errors %}
+<div class="pure-alert alert-danger">
+    <strong>{{error|escape}}</strong>
+</div>
+{% endfor %}
+
+
+{% for field in form %}
+<div class="pure-control-group tooltip">
+    {{ field.errors }}
+    {{ field.label_tag }} {{ field }}
+    <span class="tooltip tooltiptext">{{ field.help_text }}</span>
+</div>
+{% endfor %}

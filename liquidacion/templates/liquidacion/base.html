@@ -1,0 +1,47 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Liquidacion Laboral</title>
+    <script src="https:/ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css"
+          integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/base-min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+    <header>
+
+    </header>
+    <main>
+        <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+        <script>
+            webshims.setOptions('forms-ext',{types: 'date'});
+            webshims.polyfill('forms forms-ext');
+        </script>
+
+        {% include 'liquidacion/messages_snippet.html' %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer class="footer l-box is-center">
+        <div class="footer l-box is-center">
+            <a href="#" >acerca de nosotros </a>
+            <a href="#" >Terminos y Condiciones</a> -
+            <a href="#" >Volver Arriba</a> -
+            <a href="#" >Paginas Relacionadas</a> -
+            <a href="#" >Mapa del Sitio</a>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="{% static 'scripts/script' %}"></script>
+</body>
+
+</html>

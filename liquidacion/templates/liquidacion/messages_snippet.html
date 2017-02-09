@@ -1,0 +1,13 @@
+{% if messages %}
+    {% regroup messages by level_tag as messages %}
+    {% for level in messages %}
+    <div class="alert {{ level.grouper }}" id="alert-{{ level.grouper }}">
+        <span class="closebtn" name="#alert-{{ level.grouper }}" >&times;</span>
+        <ul class="messages {{ level.grouper }}">
+            {% for message in level.list %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+{% endif %}
