@@ -11,8 +11,13 @@ from .forms import LiquidacionForm
 
 instanceLiquidacion3 = Liquidacion()
 
+#TODO write views for the new home page
+def home(request):
+    return render(request, 'liquidacion/home.html')
+
+
 @cache_control(private=True)
-def index(request):
+def full_form(request):
     #If this is a POST request we need to process data
     if request.method=='POST':
         #we create a form instance an populate with data form request:
@@ -37,14 +42,22 @@ def index(request):
         else:
             form = LiquidacionForm()
             messages.error(request,'hola mundo.')
-            return render(request,'liquidacion/index.html', {'form':form})
+            return render(request,'liquidacion/full_form.html', {'form':form})
 
 
     # if is a get or any other method we create a new form
     else:
         form = LiquidacionForm()
 
-        return render(request,'liquidacion/index.html',{'form':form})
+        return render(request,'liquidacion/full_form.html',{'form':form})
+
+#TODO write a view for a simplified form termino fijo
+
+#TODO write a view for simplified form construccion
+
+#TODO write a view for simplified form servicio
+
+#TODO write a view for simplified form indefinido
 
 @cache_control(private=True)
 def results(request):

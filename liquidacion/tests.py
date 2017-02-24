@@ -6,6 +6,7 @@ from .models import Liquidacion
 from datos_laborales.models import SalarioMinimo
 
 # Create your tests here.
+#TODO test totals
 BASE_CESANTIAS_PRIMA = 1100000
 
 

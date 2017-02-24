@@ -1,0 +1,101 @@
+<!--TODO  make a header from pure.io landing page-->
+{% extends 'liquidacion/base.html' %}
+
+{% block content %}
+<h1>Home Page:</h1>
+<!--FIXME el splash container  se sobrepone al texto-->
+<div class="splash-container">
+
+    <div class="splash">
+        <h1 class="splash-head">Liquidacion Laboral Colombia</h1>
+        <p class="splash-subhead">
+            Elaborado con mucho cariño por Ingenium Computantis.
+        </p>
+
+        <!--FIXME el splash container  no abarca todos los botones de la etiqueta "a"-->
+        <p>
+            <a href="http://purecss.io" class="pure-button pure-button-primary">Formulario Completo</a>
+            <!--TODO link  para el formulario  completo-->
+        </p>
+        <p>
+            <!--TODO link  para el formulario  jornal-->
+            <a href="http://purecss.io" class="pure-button pure-button-primary">Empleado Por Dias</a>
+        </p>
+         <p>
+             <!--TODO link  para el formulario  obra labor-->
+            <a href="http://purecss.io" class="pure-button pure-button-primary">Empleado Por Obra Labor</a>
+        </p>
+         <p>
+             <!--TODO link  para el formulario  empleado termino Fijo-->
+            <a href="http://purecss.io" class="pure-button pure-button-primary">Termino Fijo</a>
+        </p>
+
+    </div>
+</div>
+<div class="content-wrapper">
+    <div class="content">
+        <h2 class="content-head is-center">Empleado Por Dias.</h2>
+        <div class="pure-g">
+            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-rocket"></i>
+                    Formulario Completo
+                </h3>
+                <p>
+                    El Formulario esta diseñado para poder calcular cualquie liquidacion laboral
+                    que se requiera....
+                </p>
+            </div>
+
+            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-rocket"></i>
+                    Formulario Empleado Por Dias
+                </h3>
+                <p>
+                    El Formulario esta diseñado para poder calcular liquidacion laboral de empleados por dias
+                    que se requiera....
+                </p>
+            </div>
+
+            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-rocket"></i>
+                    Formulario Empleado Obra o Labor
+                </h3>
+                <p>
+                    El Formulario esta diseñado para calcular liquidacion laboral empleados que trabajen por obra o labor
+                    que se requiera....
+                </p>
+            </div>
+
+            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-rocket"></i>
+                    Formulario Empleado Termino Fijo
+                </h3>
+                <p>
+                    El Formulario esta diseñado para poder calcular liquidacion laboral empleado a termino fijo
+                    que se requiera....
+                </p>
+            </div>
+
+            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-rocket"></i>
+                    Formulario Termino Indefinido
+                </h3>
+                <p>
+                    El Formulario esta diseñado para poder calcular liquidacion laboral a termino indefinido
+                    que se requiera....
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+

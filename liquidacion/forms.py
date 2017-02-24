@@ -15,8 +15,13 @@ class LiquidacionForm(forms.ModelForm):
             'fecha_finalizacion': forms.DateInput(attrs={'readonly':False, 'class':'myclass'})
         }
 
+    # TODO write a form for a simplified form termino fijo
 
+    # TODO write a form for simplified form construccion
 
+    # TODO write a form for simplified form servicio
+
+    # TODO write a form for simplified form indefinido
 
     def clean(self):
         cleaned_data = super(LiquidacionForm, self).clean()
