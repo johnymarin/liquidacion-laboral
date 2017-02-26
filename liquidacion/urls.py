@@ -11,8 +11,10 @@ urlpatterns=[
     url(r'^termino_fijo/$', views.full_form, {'p_tipo': 'f_fijo'}, name='termino_fijo_form'),
     # ex: /liquidacion/obra_labor
     url(r'^obra_labor/$', views.full_form, {'p_tipo': 'f_obra'}, name='obra_labor_form'),
+    # ex: /liquidacion/termino_indefinido
+    url(r'^termino_indefinido/$', views.full_form, {'p_tipo': 'f_indefinido'}, name='termino_indefinido_form'),
     # ex: /liquidacion/resultados or  /liquidacion/termino_fijo/
-    #FIXME this actually accepts any url that ends with resultados, make only accept valid url
+    #FIXME this actually accepts any url that ends with resultados, make only accept valids url
     url(r'resultados/$', views.results, name='results'),
 
 ]

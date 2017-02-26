@@ -6,7 +6,7 @@ from django.views.decorators.cache import cache_control
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .models import  Liquidacion
-from .forms import LiquidacionForm, TerminoFijoForm, ObraLaborForm
+from .forms import LiquidacionForm, TerminoFijoForm, ObraLaborForm, IndefinidoForm
 # Create your views here.
 
 TIPOS_DE_FORMULARIO = {
@@ -14,7 +14,7 @@ TIPOS_DE_FORMULARIO = {
     'f_fijo': TerminoFijoForm,
     'f_obra': ObraLaborForm,
     'f_servicios': 'Servicios',
-    'f_indefinido': 'indefinido'
+    'f_indefinido': IndefinidoForm
 }
 
 #TODO write views for the new home page
