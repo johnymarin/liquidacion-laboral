@@ -36,7 +36,7 @@ class TerminoFijoForm(LiquidacionForm):
 class ObraLaborForm(LiquidacionForm):
     class Meta:
         model = Liquidacion
-        exclude =['fecha_finalizacion', 'salario_diario', 'dias_semanales']
+        exclude =['salario_diario', 'dias_semanales']
 # TODO write a form for simplified form indefinido
 # TODO write a form for simplified form servicio/por dias
 

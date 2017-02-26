@@ -9,6 +9,8 @@ urlpatterns=[
     url(r'^$', views.full_form, name='full_form'),
     # ex: /liquidacion/termino_fijo
     url(r'^termino_fijo/$', views.full_form, {'p_tipo': 'f_fijo'}, name='termino_fijo_form'),
+    # ex: /liquidacion/obra_labor
+    url(r'^obra_labor/$', views.full_form, {'p_tipo': 'f_obra'}, name='obra_labor_form'),
     # ex: /liquidacion/resultados or  /liquidacion/termino_fijo/
     #FIXME this actually accepts any url that ends with resultados, make only accept valid url
     url(r'resultados/$', views.results, name='results'),
