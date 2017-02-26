@@ -26,13 +26,17 @@ class LiquidacionForm(forms.ModelForm):
                 raise forms.ValidationError("you ha")
 
 
-# TODO write a form for a simplified form termino fijo
+
 class TerminoFijoForm(LiquidacionForm):
     class Meta:
         model = Liquidacion
         exclude =['aplica_art_310', 'salario_diario', 'dias_semanales', 'avance_del_contrato']
 
 # TODO write a form for simplified form construccion/obra
+class ObraLaborForm(LiquidacionForm):
+    class Meta:
+        model = Liquidacion
+        exclude =['fecha_finalizacion', 'salario_diario', 'dias_semanales']
 # TODO write a form for simplified form indefinido
 # TODO write a form for simplified form servicio/por dias
 

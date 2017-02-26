@@ -6,13 +6,13 @@ from django.views.decorators.cache import cache_control
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .models import  Liquidacion
-from .forms import LiquidacionForm, TerminoFijoForm
+from .forms import LiquidacionForm, TerminoFijoForm, ObraLaborForm
 # Create your views here.
 
 TIPOS_DE_FORMULARIO = {
     'f_normal': LiquidacionForm,
     'f_fijo': TerminoFijoForm,
-    'f_obra': 'Por Obra o Labor',
+    'f_obra': ObraLaborForm,
     'f_servicios': 'Servicios',
     'f_indefinido': 'indefinido'
 }
