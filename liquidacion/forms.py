@@ -50,4 +50,9 @@ class DiasForm(LiquidacionForm):
         model = Liquidacion
         exclude =['fecha_finalizacion','aplica_art_310' , 'avance_del_contrato', 'ultimo_salario']
 
-#TODO make a empleado de confianza form without over hours
+
+class ConfianzaForm(LiquidacionForm):
+    class Meta:
+        model = Liquidacion
+        exclude =['fecha_finalizacion','aplica_art_310', 'salario_diario', 'dias_semanales', 'avance_del_contrato',
+                  'horas_extra_primer_semestre', 'horas_extra_segundo_semestre', 'horas_extra_pendientes']

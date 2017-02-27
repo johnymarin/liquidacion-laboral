@@ -6,7 +6,7 @@ from django.views.decorators.cache import cache_control
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .models import  Liquidacion
-from .forms import LiquidacionForm, TerminoFijoForm, ObraLaborForm, IndefinidoForm, DiasForm
+from .forms import LiquidacionForm, TerminoFijoForm, ObraLaborForm, IndefinidoForm, DiasForm, ConfianzaForm
 # Create your views here.
 
 TIPOS_DE_FORMULARIO = {
@@ -14,7 +14,8 @@ TIPOS_DE_FORMULARIO = {
     'f_fijo': TerminoFijoForm,
     'f_obra': ObraLaborForm,
     'f_dias': DiasForm,
-    'f_indefinido': IndefinidoForm
+    'f_indefinido': IndefinidoForm,
+    'f_confianza': ConfianzaForm
 }
 
 #TODO write views for the new home page
@@ -24,7 +25,7 @@ def home(request):
 
 @cache_control(private=True)
 def full_form(request, p_tipo = 'f_normal'):
-    p_form = TIPOS_DE_FORMULARIO[p_tipo]
+    p_form = TIPOS_DE_FORMULARIO.get(p_tipo, 'f_normal')
     #If this is a POST request we need to process data
     if request.method=='POST':
         #we create a form instance an populate with data form request:

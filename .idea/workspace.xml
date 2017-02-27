@@ -4,7 +4,6 @@
     <list default="true" id="45046b22-54a7-4320-83d6-456d035e6655" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/liquidacion/forms.py" afterPath="$PROJECT_DIR$/liquidacion/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/liquidacion/models.py" afterPath="$PROJECT_DIR$/liquidacion/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/liquidacion/urls.py" afterPath="$PROJECT_DIR$/liquidacion/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/liquidacion/views.py" afterPath="$PROJECT_DIR$/liquidacion/views.py" />
     </list>
@@ -26,11 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/liquidacion/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+            <state relative-caret-position="136">
+              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -48,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forms.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/liquidacion/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="458">
-              <caret line="50" column="98" selection-start-line="50" selection-start-column="98" selection-end-line="50" selection-end-column="98" />
+            <state relative-caret-position="508">
+              <caret line="57" column="106" selection-start-line="57" selection-start-column="106" selection-end-line="57" selection-end-column="106" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -63,8 +62,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/liquidacion/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1207">
-              <caret line="77" column="18" selection-start-line="77" selection-start-column="4" selection-end-line="77" selection-end-column="18" />
+            <state relative-caret-position="-169">
+              <caret line="86" column="23" selection-start-line="86" selection-start-column="4" selection-end-line="86" selection-end-column="23" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -75,8 +74,8 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/liquidacion/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="16" column="92" selection-start-line="16" selection-start-column="92" selection-end-line="16" selection-end-column="92" />
+            <state relative-caret-position="306">
+              <caret line="18" column="102" selection-start-line="18" selection-start-column="102" selection-end-line="18" selection-end-column="102" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -156,9 +155,9 @@
         <option value="$PROJECT_DIR$/liquidacion/templates/liquidacion/base.html" />
         <option value="$PROJECT_DIR$/liquidacion/templates/liquidacion/full_form.html" />
         <option value="$PROJECT_DIR$/liquidacion/models.py" />
-        <option value="$PROJECT_DIR$/liquidacion/views.py" />
-        <option value="$PROJECT_DIR$/liquidacion/urls.py" />
         <option value="$PROJECT_DIR$/liquidacion/forms.py" />
+        <option value="$PROJECT_DIR$/liquidacion/urls.py" />
+        <option value="$PROJECT_DIR$/liquidacion/views.py" />
       </list>
     </option>
   </component>
@@ -587,7 +586,14 @@
       <option name="project" value="LOCAL" />
       <updated>1488111200144</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="add new simplied form for the dias jornal">
+      <created>1488159280198</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1488159280198</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -607,7 +613,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4074074" sideWeight="0.49003068" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4074074" sideWeight="0.49003068" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -637,14 +643,15 @@
     <MESSAGE value="add new simplied form for the termino fijo" />
     <MESSAGE value="add new simplied form for the obra labor" />
     <MESSAGE value="add new simplied form for the termino indefinido" />
-    <option name="LAST_COMMIT_MESSAGE" value="add new simplied form for the termino indefinido" />
+    <MESSAGE value="add new simplied form for the dias jornal" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new simplied form for the dias jornal" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/liquidacion/views.py</url>
-          <line>49</line>
+          <line>50</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
@@ -952,40 +959,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/liquidacion/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1207">
-          <caret line="77" column="18" selection-start-line="77" selection-start-column="4" selection-end-line="77" selection-end-column="18" />
+        <state relative-caret-position="-169">
+          <caret line="86" column="23" selection-start-line="86" selection-start-column="4" selection-end-line="86" selection-end-column="23" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/liquidacion/views.py">
+    <entry file="file://$PROJECT_DIR$/liquidacion/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+        <state relative-caret-position="508">
+          <caret line="57" column="106" selection-start-line="57" selection-start-column="106" selection-end-line="57" selection-end-column="106" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/liquidacion/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="16" column="92" selection-start-line="16" selection-start-column="92" selection-end-line="16" selection-end-column="92" />
+        <state relative-caret-position="306">
+          <caret line="18" column="102" selection-start-line="18" selection-start-column="102" selection-end-line="18" selection-end-column="102" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/liquidacion/forms.py">
+    <entry file="file://$PROJECT_DIR$/liquidacion/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="50" column="98" selection-start-line="50" selection-start-column="98" selection-end-line="50" selection-end-column="98" />
+        <state relative-caret-position="136">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
