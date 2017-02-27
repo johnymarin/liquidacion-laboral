@@ -298,7 +298,7 @@ class Liquidacion(models.Model):
         prom2 = float(self.salario_promedio_semestre2)
         formula = (prom1 + prom2)/2
         return formula
-
+    #TODO make cesantias consignadas field, it verifies if  the 14 feb is over and
     @property
     def pago_cesantias (self):
         """

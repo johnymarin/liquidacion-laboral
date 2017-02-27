@@ -38,11 +38,16 @@ class ObraLaborForm(LiquidacionForm):
         model = Liquidacion
         exclude =['salario_diario', 'dias_semanales']
 
-# TODO write a form for simplified form indefinido
+
 class IndefinidoForm(LiquidacionForm):
     class Meta:
         model = Liquidacion
         exclude =['fecha_finalizacion','aplica_art_310', 'salario_diario', 'dias_semanales', 'avance_del_contrato']
 
-# TODO write a form for simplified form servicio/por dias
 
+class DiasForm(LiquidacionForm):
+    class Meta:
+        model = Liquidacion
+        exclude =['fecha_finalizacion','aplica_art_310' , 'avance_del_contrato', 'ultimo_salario']
+
+#TODO make a empleado de confianza form without over hours
