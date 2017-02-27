@@ -9,27 +9,11 @@
     <div class="splash">
         <h1 class="splash-head">Liquidacion Laboral Colombia</h1>
         <p class="splash-subhead">
-            Elaborado con mucho cariño por Ingenium Computantis.
+        <a href="{% url 'liquidacion:full_form' %}" class="pure-button pure-button-primary">Formulario Completo</a>
+        <a href="{% url 'liquidacion:dias_servicio_form' %}" class="pure-button pure-button-primary">Empleado Por Dias</a>
+        <a href="{% url 'liquidacion:obra_labor_form' %}" class="pure-button pure-button-primary">Empleado Por Obra Labor</a>
+        <a href="{% url 'liquidacion:termino_fijo_form' %}" class="pure-button pure-button-primary">Termino Fijo</a>
         </p>
-
-        <!--FIXME el splash container  no abarca todos los botones de la etiqueta "a"-->
-        <p>
-            <a href="http://purecss.io" class="pure-button pure-button-primary">Formulario Completo</a>
-            <!--TODO link  para el formulario  completo-->
-        </p>
-        <p>
-            <!--TODO link  para el formulario  jornal-->
-            <a href="http://purecss.io" class="pure-button pure-button-primary">Empleado Por Dias</a>
-        </p>
-         <p>
-             <!--TODO link  para el formulario  obra labor-->
-            <a href="http://purecss.io" class="pure-button pure-button-primary">Empleado Por Obra Labor</a>
-        </p>
-         <p>
-             <!--TODO link  para el formulario  empleado termino Fijo-->
-            <a href="http://purecss.io" class="pure-button pure-button-primary">Termino Fijo</a>
-        </p>
-
     </div>
 </div>
 <div class="content-wrapper">
@@ -42,8 +26,10 @@
                     Formulario Completo
                 </h3>
                 <p>
-                    El Formulario esta diseñado para poder calcular cualquie liquidacion laboral
-                    que se requiera....
+                    <!--FIXME change this text does not goes here-->
+                    A traves de esta herramienta usted podrá elaborar cualquier liquidación laboral que necesite, el formulario
+                    cuenta con todos los campos necesarios para dar solucion a un sin numero de posibles eventos que se den
+                    al momento de elaborar la liquidacion laborar de un empleado, o de revisar su propia liquidación
                 </p>
             </div>
 
