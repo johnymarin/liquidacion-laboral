@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+    //BEGIN toggle bar with tucked menu
+    document.getElementById('toggle').addEventListener('click', function(e){
+        document.getElementById('tuckedMenu').classList.toggle('custom-menu-tucked');
+        document.getElementById('toggle').classList.toggle('x');
+    });
+    //END toggle bar with tucked menu
+
     $(window.id_fecha_liquidacion).prop('min',$(window.id_fecha_inicio).val());
     $(window.id_fecha_finalizacion).prop('min',$(window.id_fecha_inicio).val());
     $(window.id_fecha_inicio).prop('max',$(window.id_fecha_finalizacion).val());
@@ -57,3 +64,5 @@ $(document).ready(function(){
 
 
 });
+
+

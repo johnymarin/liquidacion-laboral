@@ -18,7 +18,7 @@ TIPOS_DE_FORMULARIO = {
     'f_confianza': ConfianzaForm
 }
 
-#TODO write views for the new home page
+#TODO write views for the new home pageapp
 def home(request):
     return render(request, 'liquidacion/home.html')
 
@@ -51,15 +51,7 @@ def full_form(request, p_tipo = 'f_normal'):
         form = p_form()
         return render(request,'liquidacion/full_form.html',{'form':form})
 
-#TODO write a view for a simplified form termino fijo
 
-
-
-#TODO write a view for simplified form construccion
-
-#TODO write a view for simplified form servicio
-
-#TODO write a view for simplified form indefinido
 
 @cache_control(private=True)
 def results(request):
