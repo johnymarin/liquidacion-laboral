@@ -44,7 +44,7 @@
             </tr>
             <tr>
                 <th>Total Dias Laborados:</th>
-                <td>{{liquidacion.dias_trabajados}}</td>
+                <td>{{liquidacion.dias_trabajados_anual | default_if_none:"0"}}</td>
             </tr>
             <tr>
                 <th>Causal Terminacion:</th>

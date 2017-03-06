@@ -19,7 +19,7 @@ from liquidacion.views import home as homeview
 
 urlpatterns = [
     # TODO point the root url to a home view in the home app http://grasshopperpebbles.com/django-python/how-to-set-up-a-home-page-with-django/
-    url(r'^$', homeview),
+    url(r'^$', homeview, name="home"),
     url(r'^liquidacion/', include('liquidacion.urls')),
     url(r'^admin/', admin.site.urls),
 ]

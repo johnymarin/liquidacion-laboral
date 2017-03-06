@@ -14,6 +14,14 @@
     <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/base-min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-4102072887275877",
+        enable_page_level_ads: true
+      });
+    </script>
+
 </head>
 <body>
     <header>
@@ -28,7 +36,10 @@
           <div class="home-menu pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked" id="tuckedMenu">
               <div class="custom-menu-screen"></div>
               <ul class="pure-menu-list">
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link">Home</a></li>
+                  <li class="pure-menu-item"><a href="{% url 'home' %}" class="pure-menu-link">Home</a></li>
+
+                  <!--TODO make a contact, about, blog and social media pages-->
+<!--
                   <li class="pure-menu-item"><a href="#" class="pure-menu-link">About</a></li>
                   <li class="pure-menu-item"><a href="#" class="pure-menu-link">Contact</a></li>
                   <li class="pure-menu-item"><a href="#" class="pure-menu-link">Blog</a></li>
@@ -39,6 +50,7 @@
                   <li class="pure-menu-item"><a href="#" class="pure-menu-link">Wang</a></li>
                   <li class="pure-menu-item"><a href="#" class="pure-menu-link">Yahoo</a></li>
                   <li class="pure-menu-item"><a href="#" class="pure-menu-link">W3C</a></li>
+-->
               </ul>
           </div>
       </div>
@@ -58,12 +70,21 @@
     <footer class="footer l-box is-center">
         <!--TODO make a more beautiful footer-->
         <div class="footer l-box is-center">
-            <a href="#" >&copy; Ingenium Computantis </a>
-            <a href="#" >acerca de nosotros </a>
-            <a href="#" >&copy; All rights reserved</a> -
-            <a href="#" >Volver Arriba</a> -
-            <a href="#" >Paginas Relacionadas</a> -
-            <a href="#" >Mapa del Sitio</a>
+            <div class="pure-menu pure-menu-horizontal">
+                <ul>
+                    <li class="pure-menu-item">
+                         <a href="#" >&copy; Ingenium Computantis </a>
+                    </li>
+
+                    <li class="pure-menu-item">
+                         <a href="#" >Volver Arriba </a>
+                    </li>
+
+                </ul>
+
+
+            </div>
+
         </div>
     </footer>
 

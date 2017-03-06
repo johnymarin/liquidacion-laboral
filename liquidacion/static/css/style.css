@@ -90,6 +90,7 @@
 .footer {
     background: #111;
     color: white;
+    z-index: 4;
 }
 
 /* this is a Tooltip container */

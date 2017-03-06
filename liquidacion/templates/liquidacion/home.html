@@ -8,6 +8,9 @@
 
     <div class="splash">
         <h1 class="splash-head">Liquidacion Laboral Colombia</h1>
+        <!--TODO make terminos y condiciones page-->
+        <!--TODO when the home app is ready namespace this url-->
+        <p class="splash-subhead">Al utilizar esta pagina estas aceptando los <a href="#">terminos y condiciones</a> </p>
         <p class="splash-subhead">
         <a href="{% url 'liquidacion:full_form' %}" class="pure-button pure-button-primary">Formulario Completo</a>
         <a href="{% url 'liquidacion:dias_servicio_form' %}" class="pure-button pure-button-primary">Empleado Por Dias</a>
@@ -18,7 +21,7 @@
 </div>
 <div class="content-wrapper">
     <div class="content">
-        <h2 class="content-head is-center">Empleado Por Dias.</h2>
+        <h2 class="content-head is-center">Formularios para Liquidacion.</h2>
         <div class="pure-g">
             <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-4">
                 <h3 class="content-subhead">
@@ -26,10 +29,10 @@
                     Formulario Completo
                 </h3>
                 <p>
-                    <!--FIXME change this text does not goes here-->
                     A traves de esta herramienta usted podrá elaborar cualquier liquidación laboral que necesite, el formulario
                     cuenta con todos los campos necesarios para dar solucion a un sin numero de posibles eventos que se den
                     al momento de elaborar la liquidacion laborar de un empleado, o de revisar su propia liquidación
+                    <a href="{% url 'liquidacion:full_form' %}" class="pure-button pure-button-primary">Formulario Completo</a>
                 </p>
             </div>
 
@@ -39,8 +42,11 @@
                     Formulario Empleado Por Dias
                 </h3>
                 <p>
-                    El Formulario esta diseñado para poder calcular liquidacion laboral de empleados por dias
-                    que se requiera....
+                    Al momento de liquidar las prestaciones sociales a un empleado que trabaja por dias, es necesario
+                    entrar a considerar ciertos aspectos. estos son el numero de dias a la semana que trabaja y
+                    el salario por dia trabajado, este formulario permite calcular este tipo de liquidacion de una
+                    manera mas sencilla.
+                    <a href="{% url 'liquidacion:dias_servicio_form' %}" class="pure-button pure-button-primary">Empleado Por Dias</a>
                 </p>
             </div>
 
@@ -50,8 +56,13 @@
                     Formulario Empleado Obra o Labor
                 </h3>
                 <p>
-                    El Formulario esta diseñado para calcular liquidacion laboral empleados que trabajen por obra o labor
-                    que se requiera....
+                    Para realizar la liquidacion de las personas que trabajan por obra o labor, se necesita
+                    conocer que tan avanzada estaba la obra al momento de liquidar, ademas si se trata de empleados
+                    del sector de la construccion el articulo 310 del codigo sustantivo de trabajo establece una forma
+                    especial para calcular esta liquidacion, aunque este articulo esta sujeto a debate sobre si se ha
+                    derogado tacitamente lo incluimos y dejamos al usuario elegir si calcular la liquidacion con base
+                    en este articulo o no.
+                    <a href="{% url 'liquidacion:obra_labor_form' %}" class="pure-button pure-button-primary">Empleado Por Obra Labor</a>
                 </p>
             </div>
 
@@ -61,8 +72,10 @@
                     Formulario Empleado Termino Fijo
                 </h3>
                 <p>
-                    El Formulario esta diseñado para poder calcular liquidacion laboral empleado a termino fijo
-                    que se requiera....
+                    Para la liquidacion de empleados a termino fijo, lo mas importante es conocer la fecha de liquidacion
+                    y la fecha en que estaba estipulado terminaria el contrato,  mediante este formulario  se podra
+                    realizar este calculo sin problemas.
+                    <a href="{% url 'liquidacion:termino_fijo_form' %}" class="pure-button pure-button-primary">Termino Fijo</a>
                 </p>
             </div>
 
@@ -72,8 +85,8 @@
                     Formulario Termino Indefinido
                 </h3>
                 <p>
-                    El Formulario esta diseñado para poder calcular liquidacion laboral a termino indefinido
-                    que se requiera....
+                    Para los empleados a termino indefinido se excluyen del formulario completo aquellos campos que
+                    no son necesarios con el objetivo de simplificar el calculo de la liquidacion.
                 </p>
             </div>
 
