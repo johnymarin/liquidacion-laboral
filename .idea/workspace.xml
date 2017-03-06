@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="45046b22-54a7-4320-83d6-456d035e6655" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/liquidacionsite/settings.py" afterPath="$PROJECT_DIR$/liquidacionsite/settings.py" />
-    </list>
+    <list default="true" id="45046b22-54a7-4320-83d6-456d035e6655" name="Default" comment="" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -741,7 +738,14 @@
       <option name="project" value="LOCAL" />
       <updated>1488839534748</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="aws files for new conection">
+      <created>1488840019730</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1488840019730</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TodoView">
@@ -798,7 +802,8 @@
     <MESSAGE value="fix the menu incompatibilities with splash by removing fixed class in menu" />
     <MESSAGE value="delete aws not working config" />
     <MESSAGE value="aws files for new conetion" />
-    <option name="LAST_COMMIT_MESSAGE" value="aws files for new conetion" />
+    <MESSAGE value="aws files for new conection" />
+    <option name="LAST_COMMIT_MESSAGE" value="aws files for new conection" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
