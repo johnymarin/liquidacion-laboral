@@ -25,7 +25,8 @@ SECRET_KEY = '&ay_q^cnxmn8m_adxs+0o8jkfqxn#3fu85rn-(gkg93so@k!sf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.10','localhost','eb-liquidacion-env.nh3ppfehda.sa-east-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['192.168.1.10','localhost','eb-liquidacion-env.nh3ppfehda.sa-east-1.elasticbeanstalk.com',
+                 'miliquidacion.co', 'www.miliquidacion.co']
 
 
 # Application definition
