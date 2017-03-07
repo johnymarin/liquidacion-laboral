@@ -50,20 +50,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="django.config" pinned="false" current-in-tab="false">
+      <file leaf-file-name="django.config" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.ebextensions/django.config">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
-              <caret line="5" column="23" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+              <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/liquidacionsite/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
+            <state relative-caret-position="2057">
               <caret line="121" column="22" selection-start-line="121" selection-start-column="22" selection-end-line="121" selection-end-column="22" />
               <folding />
             </state>
@@ -860,7 +860,14 @@
       <option name="project" value="LOCAL" />
       <updated>1488857701222</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="fix static files not serving in aws">
+      <created>1488858302137</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1488858302137</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1256,18 +1263,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.ebextensions/django.config">
+    <entry file="file://$PROJECT_DIR$/liquidacionsite/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="23" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+        <state relative-caret-position="2057">
+          <caret line="121" column="22" selection-start-line="121" selection-start-column="22" selection-end-line="121" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/liquidacionsite/settings.py">
+    <entry file="file://$PROJECT_DIR$/.ebextensions/django.config">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="121" column="22" selection-start-line="121" selection-start-column="22" selection-end-line="121" selection-end-column="22" />
+        <state relative-caret-position="85">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
           <folding />
         </state>
       </provider>
