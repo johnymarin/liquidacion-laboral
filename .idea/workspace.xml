@@ -762,7 +762,14 @@
       <option name="project" value="LOCAL" />
       <updated>1488853687830</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="change static root and collect static">
+      <created>1488854560684</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1488854560684</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TodoView">
@@ -820,7 +827,8 @@
     <MESSAGE value="delete aws not working config" />
     <MESSAGE value="aws files for new conetion" />
     <MESSAGE value="aws files for new conection" />
-    <option name="LAST_COMMIT_MESSAGE" value="aws files for new conection" />
+    <MESSAGE value="change static root and collect static" />
+    <option name="LAST_COMMIT_MESSAGE" value="change static root and collect static" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
