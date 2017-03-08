@@ -101,7 +101,15 @@
         <tbody>
             <tr>
                 <th>Cesantias:</th>
-                <td>{{liquidacion.pago_cesantias | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.pago_total_cesantias | default_if_none:"0.00"}}</td>
+            </tr>
+            <tr>
+                <th>Consignadas al Fondo:</th>
+                <td>{{liquidacion.cesantias_consignadas_fondo | default_if_none:"0.00"}}</td>
+            </tr>
+            <tr>
+                <th>Para Pago Al Empleado:</th>
+                <td>{{liquidacion.pago_cesantias_anio_actual | default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Intereses A Las Cesantias:</th>

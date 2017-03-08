@@ -94,10 +94,10 @@ class LiquidacionMethodTest(TestCase):
         self.assertEqual(liquidacion_primer_s.dias_trabajados_anual,
                          liquidacion_primer_s.dias_trabajados_primer_semestre + liquidacion_primer_s.dias_trabajados_segundo_semestre,
                          "el total de los dias no es igual a la suma de dias de los semestres")
-        self.assertAlmostEqual(liquidacion_primer_s.pago_cesantias,BASE_CESANTIAS_PRIMA * 5/12, 2,
+        self.assertAlmostEqual(liquidacion_primer_s.pago_total_cesantias, BASE_CESANTIAS_PRIMA * 5 / 12, 2,
                                "el calculo de cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_primer_s.pago_intereses_cesantias,
-                               liquidacion_primer_s.pago_cesantias * 0.12 * 5/12, 2,
+                               liquidacion_primer_s.pago_total_cesantias * 0.12 * 5 / 12, 2,
                                "el calculo de los intereses a las cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_primer_s.pago_vacaciones, 1000000*5/24,
                                2, "el calculo de las vacaciones no corresponde")
@@ -126,10 +126,10 @@ class LiquidacionMethodTest(TestCase):
         self.assertEqual(liquidacion_segundo_s.dias_trabajados_anual,
                          liquidacion_segundo_s.dias_trabajados_primer_semestre + liquidacion_segundo_s.dias_trabajados_segundo_semestre,
                          "el total de los dias no es igual a la suma de dias de los semestres")
-        self.assertAlmostEqual(liquidacion_segundo_s.pago_cesantias, BASE_CESANTIAS_PRIMA * 5 / 12, 2,
+        self.assertAlmostEqual(liquidacion_segundo_s.pago_total_cesantias, BASE_CESANTIAS_PRIMA * 5 / 12, 2,
                                "el calculo de cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_segundo_s.pago_intereses_cesantias,
-                               liquidacion_segundo_s.pago_cesantias * 0.12 * 5 / 12, 2,
+                               liquidacion_segundo_s.pago_total_cesantias * 0.12 * 5 / 12, 2,
                                "el calculo de los intereses a las cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_segundo_s.pago_vacaciones, 1000000 * 5 / 24,
                                2, "el calculo de las vacaciones no corresponde")
@@ -157,10 +157,10 @@ class LiquidacionMethodTest(TestCase):
         self.assertEqual(liquidacion_mitad_s.dias_trabajados_anual,
                          liquidacion_mitad_s.dias_trabajados_primer_semestre + liquidacion_mitad_s.dias_trabajados_segundo_semestre,
                          "el total de dias no coincide con la suma de los dias de cada semestre")
-        self.assertAlmostEqual(liquidacion_mitad_s.pago_cesantias, BASE_CESANTIAS_PRIMA * 10 / 12, 2,
+        self.assertAlmostEqual(liquidacion_mitad_s.pago_total_cesantias, BASE_CESANTIAS_PRIMA * 10 / 12, 2,
                                "el calculo de cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_mitad_s.pago_intereses_cesantias,
-                               liquidacion_mitad_s.pago_cesantias * 0.12 * 10 / 12, 2,
+                               liquidacion_mitad_s.pago_total_cesantias * 0.12 * 10 / 12, 2,
                                "el calculo de los intereses a las cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_mitad_s.pago_vacaciones, 1000000 * 10 / 24,
                                2, "el calculo de las vacaciones no corresponde")
@@ -186,7 +186,7 @@ class LiquidacionMethodTest(TestCase):
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_prima_diciembre, BASE_CESANTIAS_PRIMA * 6 / 12, 2,
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
-        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_cesantias, BASE_CESANTIAS_PRIMA, 2,
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, BASE_CESANTIAS_PRIMA, 2,
                                """Las cesantias no se calculan bien cuando hay despido sin justa causa""")
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_vacaciones, 1000000 *12/24, 2,
                                """Las vacaciones no se calcullan bien cuando hay despido sin justa causa""")
@@ -214,7 +214,7 @@ class LiquidacionMethodTest(TestCase):
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_prima_diciembre, BASE_CESANTIAS_PRIMA * 6 / 12, 2,
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
-        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_cesantias, BASE_CESANTIAS_PRIMA, 2,
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, BASE_CESANTIAS_PRIMA, 2,
                                """Las cesantias no se calculan bien cuando hay despido sin justa causa""")
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_vacaciones, 1000000 *12/24, 2,
                                """Las vacaciones no se calcullan bien cuando hay despido sin justa causa""")
@@ -242,7 +242,7 @@ class LiquidacionMethodTest(TestCase):
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_prima_diciembre, BASE_CESANTIAS_PRIMA * 6 / 12, 2,
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
-        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_cesantias, BASE_CESANTIAS_PRIMA, 2,
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, BASE_CESANTIAS_PRIMA, 2,
                                """Las cesantias no se calculan bien cuando hay despido sin justa causa""")
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_vacaciones, 1000000 *12/24, 2,
                                """Las vacaciones no se calcullan bien cuando hay despido sin justa causa""")
@@ -284,10 +284,10 @@ class LiquidacionMethodTest(TestCase):
         self.assertEqual(liquidacion_primer_s.dias_trabajados_anual,
                          liquidacion_primer_s.dias_trabajados_primer_semestre + liquidacion_primer_s.dias_trabajados_segundo_semestre,
                          "el total de los dias no es igual a la suma de dias de los semestres")
-        self.assertAlmostEqual(liquidacion_primer_s.pago_cesantias,(BASE_CESANTIAS_PRIMA*a_dias_semanales/7) * 5/12, 2,
+        self.assertAlmostEqual(liquidacion_primer_s.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7) * 5 / 12, 2,
                                "el calculo de cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_primer_s.pago_intereses_cesantias,
-                               liquidacion_primer_s.pago_cesantias * 0.12 * 5/12, 2,
+                               liquidacion_primer_s.pago_total_cesantias * 0.12 * 5 / 12, 2,
                                "el calculo de los intereses a las cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_primer_s.pago_vacaciones, (1000000*1/7)*5/24,
                                2, "el calculo de las vacaciones no corresponde")
@@ -320,10 +320,10 @@ class LiquidacionMethodTest(TestCase):
         self.assertEqual(liquidacion_segundo_s.dias_trabajados_anual,
                          liquidacion_segundo_s.dias_trabajados_primer_semestre + liquidacion_segundo_s.dias_trabajados_segundo_semestre,
                          "el total de los dias no es igual a la suma de dias de los semestres")
-        self.assertAlmostEqual(liquidacion_segundo_s.pago_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales/7) * 5 / 12, 2,
+        self.assertAlmostEqual(liquidacion_segundo_s.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7) * 5 / 12, 2,
                                "el calculo de cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_segundo_s.pago_intereses_cesantias,
-                               liquidacion_segundo_s.pago_cesantias * 0.12 * 5 / 12, 2,
+                               liquidacion_segundo_s.pago_total_cesantias * 0.12 * 5 / 12, 2,
                                "el calculo de los intereses a las cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_segundo_s.pago_vacaciones, (1000000 * a_dias_semanales/7) * 5 / 24,
                                2, "el calculo de las vacaciones no corresponde")
@@ -354,10 +354,10 @@ class LiquidacionMethodTest(TestCase):
         self.assertEqual(liquidacion_mitad_s.dias_trabajados_anual,
                          liquidacion_mitad_s.dias_trabajados_primer_semestre + liquidacion_mitad_s.dias_trabajados_segundo_semestre,
                          "el total de dias no coincide con la suma de los dias de cada semestre")
-        self.assertAlmostEqual(liquidacion_mitad_s.pago_cesantias, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7) * 10 / 12, 2,
+        self.assertAlmostEqual(liquidacion_mitad_s.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7) * 10 / 12, 2,
                                "el calculo de cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_mitad_s.pago_intereses_cesantias,
-                               liquidacion_mitad_s.pago_cesantias * 0.12 * 10 / 12, 2,
+                               liquidacion_mitad_s.pago_total_cesantias * 0.12 * 10 / 12, 2,
                                "el calculo de los intereses a las cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_mitad_s.pago_vacaciones, (1000000*a_dias_semanales/7) * 10 / 24,
                                2, "el calculo de las vacaciones no corresponde")
@@ -386,7 +386,7 @@ class LiquidacionMethodTest(TestCase):
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_prima_diciembre, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7) * 6 / 12, 2,
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
-        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_cesantias, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7), 2,
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7), 2,
                                """Las cesantias no se calculan bien cuando hay despido sin justa causa""")
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_vacaciones, (1000000*a_dias_semanales/7) *12/24, 2,
                                """Las vacaciones no se calcullan bien cuando hay despido sin justa causa""")
@@ -417,7 +417,7 @@ class LiquidacionMethodTest(TestCase):
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_prima_diciembre, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7) * 6 / 12, 2,
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
-        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_cesantias, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7), 2,
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7), 2,
                                """Las cesantias no se calculan bien cuando hay despido sin justa causa""")
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_vacaciones, (1000000*a_dias_semanales/7) *12/24, 2,
                                """Las vacaciones no se calcullan bien cuando hay despido sin justa causa""")
@@ -448,7 +448,7 @@ class LiquidacionMethodTest(TestCase):
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_prima_diciembre, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7) * 6 / 12, 2,
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
-        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_cesantias, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7), 2,
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7), 2,
                                """Las cesantias no se calculan bien cuando hay despido sin justa causa""")
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_vacaciones, (1000000*a_dias_semanales/7) *12/24, 2,
                                """Las vacaciones no se calcullan bien cuando hay despido sin justa causa""")
@@ -492,10 +492,10 @@ class LiquidacionMethodTest(TestCase):
         self.assertEqual(liquidacion_primer_s.dias_trabajados_anual,
                          liquidacion_primer_s.dias_trabajados_primer_semestre + liquidacion_primer_s.dias_trabajados_segundo_semestre,
                          "el total de los dias no es igual a la suma de dias de los semestres")
-        self.assertAlmostEqual(liquidacion_primer_s.pago_cesantias,(BASE_CESANTIAS_PRIMA*a_dias_semanales/7) * 1/2, 2,
+        self.assertAlmostEqual(liquidacion_primer_s.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7) * 1 / 2, 2,
                                "el calculo de cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_primer_s.pago_intereses_cesantias,
-                               liquidacion_primer_s.pago_cesantias * 0.12 * 5/12, 2,
+                               liquidacion_primer_s.pago_total_cesantias * 0.12 * 5 / 12, 2,
                                "el calculo de los intereses a las cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_primer_s.pago_vacaciones, (1000000*7/7)*5/24,
                                2, "el calculo de las vacaciones no corresponde")
@@ -529,10 +529,10 @@ class LiquidacionMethodTest(TestCase):
         self.assertEqual(liquidacion_segundo_s.dias_trabajados_anual,
                          liquidacion_segundo_s.dias_trabajados_primer_semestre + liquidacion_segundo_s.dias_trabajados_segundo_semestre,
                          "el total de los dias no es igual a la suma de dias de los semestres")
-        self.assertAlmostEqual(liquidacion_segundo_s.pago_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales/7) * 1 / 2, 2,
+        self.assertAlmostEqual(liquidacion_segundo_s.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7) * 1 / 2, 2,
                                "el calculo de cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_segundo_s.pago_intereses_cesantias,
-                               liquidacion_segundo_s.pago_cesantias * 0.12 * 5 / 12, 2,
+                               liquidacion_segundo_s.pago_total_cesantias * 0.12 * 5 / 12, 2,
                                "el calculo de los intereses a las cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_segundo_s.pago_vacaciones, (1000000 * a_dias_semanales/7) * 5 / 24,
                                2, "el calculo de las vacaciones no corresponde")
@@ -565,10 +565,10 @@ class LiquidacionMethodTest(TestCase):
         self.assertEqual(liquidacion_mitad_s.dias_trabajados_anual,
                          liquidacion_mitad_s.dias_trabajados_primer_semestre + liquidacion_mitad_s.dias_trabajados_segundo_semestre,
                          "el total de dias no coincide con la suma de los dias de cada semestre")
-        self.assertAlmostEqual(liquidacion_mitad_s.pago_cesantias, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7) * 1 , 2,
+        self.assertAlmostEqual(liquidacion_mitad_s.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7) * 1, 2,
                                "el calculo de cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_mitad_s.pago_intereses_cesantias,
-                               liquidacion_mitad_s.pago_cesantias * 0.12 * 10 / 12, 2,
+                               liquidacion_mitad_s.pago_total_cesantias * 0.12 * 10 / 12, 2,
                                "el calculo de los intereses a las cesantias no corresponde")
         self.assertAlmostEqual(liquidacion_mitad_s.pago_vacaciones, (1000000*a_dias_semanales/7) * 10 / 24,
                                2, "el calculo de las vacaciones no corresponde")
@@ -598,7 +598,7 @@ class LiquidacionMethodTest(TestCase):
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_prima_diciembre, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7) * 6 / 12, 2,
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
-        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_cesantias, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7) *6/5, 2,
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7) * 6 / 5, 2,
                                """Las cesantias no se calculan bien cuando hay despido sin justa causa""")
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_vacaciones, (1000000*a_dias_semanales/7) *12/24, 2,
                                """Las vacaciones no se calcullan bien cuando hay despido sin justa causa""")
@@ -630,7 +630,7 @@ class LiquidacionMethodTest(TestCase):
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_prima_diciembre, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7) * 6 / 12, 2,
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
-        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_cesantias, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7)*12/10, 2,
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7) * 12 / 10, 2,
                                """Las cesantias no se calculan bien cuando hay despido sin justa causa""")
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_vacaciones, (1000000*a_dias_semanales/7) *12/24, 2,
                                """Las vacaciones no se calcullan bien cuando hay despido sin justa causa""")

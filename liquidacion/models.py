@@ -62,7 +62,10 @@ class Liquidacion(models.Model):
     causal_terminacion = models.CharField(max_length=200, verbose_name='motivo terminacion del contrato',
                                           choices=CAUSAS_DE_TERMINACION, default=CON_JUSTA_CAUSA,
                                           help_text="""Indica porque terminó el  contrato laboral""")
-
+    cesantias_consignadas = models.BooleanField(verbose_name='Le consignaron las cesantias en el fondo?', default=True,
+                                         help_text="""La ley establece que a mas tardar el dia 14 de febrero de cada
+                                         año el empleador debe consignar las cesantias de su empleado en el fondo.
+                                         por favor indique si esta condición se ha cumplido""")
     demanda_salarios_caidos = models.BooleanField(verbose_name='demandado por salarios caidos?',
                                                   default=False,
                                                   help_text="""Los salarios caidos es una indemnizacion moratoria,
@@ -99,10 +102,10 @@ class Liquidacion(models.Model):
     dias_nomina = models.DecimalField(decimal_places=0, max_digits=14, default=15,
                                       help_text="""El numero de dias de nomina pendientes por pagar a la hora de liquidar""")
     bonificaciones_primer_semestre = models.DecimalField(decimal_places=2,max_digits=14, default=0,
-                                                         help_text="""Total pagado por concept de bonificaciones, comisiones o
+                                                         help_text="""Total pagado por concepto de bonificaciones, comisiones o
                                                          cualquiera que sea la denominacion que se de, durante el primer semestre""")
     bonificaciones_segundo_semestre = models.DecimalField(decimal_places=2,max_digits=14, default=0,
-                                                         help_text="""Total pagado por concept de bonificaciones, comisiones o
+                                                         help_text="""Total pagado por concepto de bonificaciones, comisiones o
                                                          cualquiera que sea la denominacion que se de, durante el segundo semestre.""")
     dias_suspencion_primer_semestre = models.IntegerField(verbose_name='dias de suspencion 1er Semestre', default=0,
                                                           help_text="""El total de dias de suspencion del contrato durante
@@ -114,7 +117,7 @@ class Liquidacion(models.Model):
                                                            el segundo semestre. (las incapacidades NO cuentan como suspencion,
                                                            se trata es de aquellos dias que se otorgó permiso o que se sanciono
                                                            al trabajador)""")
-    dias_vacaciones_disfrutados = models.IntegerField(verbose_name='dias de vacacion', default=0,
+    dias_vacaciones_disfrutados = models.IntegerField(verbose_name='dias de vacaciones disfrutados', default=0,
                                                       help_text="""El numero total de dias de vacaciones que ha disfrutado
                                                       correspondientes al periodo laborado (no cuentan vacaciones de periodos
                                                       anteriores)""")
@@ -124,6 +127,11 @@ class Liquidacion(models.Model):
     cuota_descuento_libranza = models.DecimalField(decimal_places=2, default=0, max_digits=14,
                                                    help_text="""En caso que le descuenten una suma mensual se puede  indicar
                                                    en este campo.""")
+    cuota_embargos_al_salario = models.DecimalField(decimal_places=2, default=0, max_digits=14,
+                                                   help_text="""En caso que tenga embargado una suma mensual se puede  indicar
+        en este campo.""")
+
+    # TODO calcular cuanto se debio consignar por concpeto de cesantias
     aportes_fondo_empleados = models.DecimalField(decimal_places=2, default=0, max_digits=14,
                                                   help_text="""Valor descontado por aportes al fondo de empleados""")
     aportes_cooperativas = models.DecimalField(decimal_places=2,default=0, max_digits=14,
@@ -229,7 +237,8 @@ class Liquidacion(models.Model):
     def dias_trabajados_anual(self):
         """"
         diferencia entre la fecha de terminacion del contrato y la fecha de inicio, expresada en dias,
-         suponiendo 12 meses de 30 dias, por el momento no podra ser mayor a 360 dias
+         suponiendo 12 meses de 30 dias, no puede ser mayor a 360 dias ya que anualmente se consignan las cesantias
+         en el fondo de pension.
          """
         diasdif = (
             ((self.fecha_liquidacion.year*12 + self.fecha_liquidacion.month)*30 + min(self.fecha_liquidacion.day,30))-
@@ -237,6 +246,22 @@ class Liquidacion(models.Model):
         )
         #pediente validar los casos mayores a 360 dias
         return  min(diasdif + 1, 360)
+
+    @property
+    def dias_trabajados_anio_actual(self):
+        """
+        Es el número de dias que se trabajo durante este año, se utiliza para  conocer cuanto se debe pagar  de cesantias
+        y cuanto se debio consignar en el fondo a mas tardar el dia 14 de febrero
+        """
+        diasdif = (
+            ((self.fecha_liquidacion.year*12 + self.fecha_liquidacion.month)*30 + min(self.fecha_liquidacion.day,30))-
+            max(
+                ((self.fecha_liquidacion.year*12 + 1)*30 + 1),
+                ((self.fecha_inicio.year*12 + self.fecha_inicio.month)*30 + min(self.fecha_inicio.day,30))
+            )
+        )
+        diasdif = diasdif + 1
+        return (diasdif)
 
     @property
     def dias_trabajados_primer_semestre(self):
@@ -299,8 +324,9 @@ class Liquidacion(models.Model):
         formula = (prom1 + prom2)/2
         return formula
     #TODO make cesantias consignadas field, it verifies if  the 14 feb is over and
+    # TODO make two new properties total cesantias y consignacion cesantias
     @property
-    def pago_cesantias (self):
+    def pago_total_cesantias (self):
         """
         pago correspondiente a las cesantias, salario basico * dias / 360
         debe incluir el auxilio de transporte pues aunque no sea un pago salarial la norma lo ordena.
@@ -319,9 +345,39 @@ class Liquidacion(models.Model):
             return round(formula, 2)
 
     @property
+    def pago_cesantias_anio_actual(self):
+        """
+        pago que se debe entregar al trabajador en caso de haber terminado o liquidado el contrato antes de
+        haberse consignado en el fondo, se calculan los dias trabajados a partir de enero primero de este año o  si se
+        inicio el contrato este año se toma la fecha de inicio, y  se multiplican por el salario y  se divide por el factor
+        que depende si aplica art 310 o no.
+        """
+        aplica_art_310 = self.aplica_art_310 and self.tipo_salario==Liquidacion.EMP_CONSTRUCCION
+        salario_base_con_auxilio = float(self.salario_basico) + float(self.pago_auxilio_transporte)
+        dias_trabajados = float(self.dias_trabajados_anio_actual) - float(self.dias_suspencion_total)
+        if aplica_art_310:
+            formula = salario_base_con_auxilio * dias_trabajados / 300
+            return round(formula, 2)
+        else:
+            formula = salario_base_con_auxilio * dias_trabajados / 360
+            return round(formula, 2)
+
+    @property
+    def cesantias_consignadas_fondo(self):
+        """
+        valor consignado en el fondo  de pensiones, del total de cesantias ganadas, se restan las que se ganaron durante
+        el año de la liquidacion.
+        """
+        cesantias_totales = float(self.pago_total_cesantias)
+        cesantias_actuales = float(self.pago_cesantias_anio_actual)
+        formula = max(cesantias_totales - cesantias_actuales, 0)
+        return round(formula, 2)
+
+
+    @property
     def pago_intereses_cesantias (self):
         """pago correspondiente a los intereses de las cesantias: cesantias * 12% * dias / 360 """
-        cesantias = float(self.pago_cesantias)
+        cesantias = float(self.pago_total_cesantias)
         dias_trabajados = float(self.dias_trabajados_anual)
         formula = cesantias * dias_trabajados * 0.12 / 360
         return round(formula, 2)
@@ -365,7 +421,7 @@ class Liquidacion(models.Model):
     def subtotal_prestaciones(self):
         "suma subtotal de los pagos correspondientes a prestaciones "
         formula = 0
-        for campo in  (self.pago_cesantias, self.pago_intereses_cesantias,
+        for campo in  (self.pago_total_cesantias, self.pago_intereses_cesantias,
                        self.pago_prima_junio, self.pago_prima_diciembre,
                        self.pago_vacaciones):
             formula = formula + float(campo)
