@@ -1,0 +1,106 @@
+{% load staticfiles %}
+{% load humanize %}
+
+
+<html lang="es-ES">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Liquidacion Laboral</title>
+    <script src="https:/ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+    <link rel="shortcut icon" href="{%  static 'images/favicon-calculator.ico' %}">
+
+    <link rel="stylesheet" href="{% static 'djangostyle.css' %}">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-4102072887275877",
+        enable_page_level_ads: true
+      });
+    </script>
+
+</head>
+<!--TODO remove hard coded homepage from class and id make the homeapp do this-->
+<body id="homepage" class="homepage">
+    <header>
+    <!--TODO Make header widged scripts and include here-->
+        <div role="banner" id="top">
+            <!--::Before-->
+            <div class="container">
+                <!--::before-->
+                <!--TODO add link to IC page add meta-->
+                <a  href="#">
+                    <object type="image/svg+xml" data="{% static 'images/logo.svg' %}">
+                        probando objeto
+                    </object>
+                </a>
+                <p class="meta">nothing for the moment</p>
+
+                <div role="navigation">
+                    <ul>
+                        <li><a href="#">Liquidacion</a> </li>
+                        <li><a href="#">Prueba</a> </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+        <script>
+            webshims.setOptions('forms-ext',{types: 'date'});
+            webshims.polyfill('forms forms-ext');
+        </script>
+
+
+        this is my main
+        <object type="image/svg+xml" data="{% static 'images/logo.svg' %}">
+            probando objeto
+        </object>
+        {% include 'liquidacion/messages_snippet.html' %}
+
+        {% block content %}
+        {% endblock %}
+
+                <div role="main">
+                    <div id="version-switcher">
+                        <ul id="doc-languages" class="language-switcher">
+                            <li class="other"><a href="#">de</a> </li>
+                            <li class="other"><a href="#">de</a> </li>
+                            <li class="current" title="click links left to switch language">
+                                <span>"Language" <strong>en</strong></span>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+    </main>
+    <footer class="footer l-box is-center">
+        <!--TODO make a more beautiful footer-->
+        <div class="footer l-box is-center">
+            <div class="pure-menu pure-menu-horizontal">
+                <ul>
+                    <li class="pure-menu-item">
+                         <a href="#" >&copy; Ingenium Computantis </a>
+                    </li>
+
+                    <li class="pure-menu-item">
+                         <a href="#" >Volver Arriba </a>
+                    </li>
+
+                </ul>
+
+
+            </div>
+
+        </div>
+
+
+
+    </footer>
+
+    <script type="text/javascript" src="{% static 'scripts/script.js' %}"></script>
+    <script type="text/javascript" src="{% static '\scripts\public\bundle.js' %}"></script>
