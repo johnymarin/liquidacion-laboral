@@ -6,7 +6,10 @@ from django.views.decorators.cache import cache_control
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .models import  Liquidacion
-from .forms import LiquidacionForm, TerminoFijoForm, ObraLaborForm, IndefinidoForm, DiasForm, ConfianzaForm
+#import all forms in this project
+from .forms import *
+
+
 # Create your views here.
 
 TIPOS_DE_FORMULARIO = {
@@ -20,8 +23,20 @@ TIPOS_DE_FORMULARIO = {
 
 #TODO write views for the new home pageapp
 def home(request):
-    return render(request, 'liquidacion/home.html')
+    if request.method =='POST':
+        form = BasicaForm(request.POST)
+        if form.is_valid():
+            instanceLiquidacion = Liquidacion(**form.cleaned_data)
+            instanceLiquidacion.save()
+            request.session['liquidacion_calculada'] = instanceLiquidacion.id
+            # redirect to a new page with the results
+            return HttpResponseRedirect('liquidacion/resultados')
+    else:
+        form = BasicaForm()
+    return render(request, 'liquidacion/home.html', {'form': form})
 
+def tictactoe(request):
+    return render(request, 'tutorials/tic_tac_toe.html')
 
 @cache_control(private=True)
 def full_form(request, p_tipo = 'f_normal'):
@@ -60,3 +75,13 @@ def results(request):
         return render(request,'liquidacion/results.html',{'liquidacion':instanceLiquidacion2})
     except KeyError:
         return render(request,'liquidacion/results.html',)
+
+
+def contact(request):
+    form=ContactForm
+    return render(request,'liquidacion/contact.html', {
+        'form': form,
+    })
+
+def terms(request):
+    return render(request,'liquidacion/terms.html')

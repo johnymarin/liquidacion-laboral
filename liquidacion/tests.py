@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.utils.timezone import now
 
 from .models import Liquidacion
-from datos_laborales.models import SalarioMinimo
+from datos_laborales.models import SalarioMinimo , AporteSalud, AportePension
 
 # Create your tests here.
 #TODO test totals
@@ -17,6 +17,10 @@ def create_salario_minimo(vigencia_smmlv=now().year, smmlv=1000000, aux_trans=10
     salario_futuro.save()
     salario_actual= SalarioMinimo(pk=now().year, vigencia_smmlv=vigencia_smmlv, smmlv=smmlv, aux_trans=aux_trans)
     salario_actual.save()
+    aporte_salud = AporteSalud(inicio_vigencia=date(now().year-2, 1,1), porcentaje_aporte_empresa=10/100.0, porcentaje_aporte_empleado=5/100.0)
+    aporte_salud.save()
+    aporte_pension = AportePension(inicio_vigencia=date(now().year-2,1,1), porcentaje_aporte_empresa=14/100.0, porcentaje_aporte_empleado=7/100.0)
+    aporte_pension.save()
 
 def create_liquidacion(p_empresa="EJEMPLO SAS", p_empleado="Johny Marin Gutierrez", p_fecha_inicio=now(),
                        p_fecha_liquidacion=now(), p_demanda_salarios_caidos=False, p_ultimo_salario=1000,
@@ -67,12 +71,13 @@ class LiquidacionMethodTest(TestCase):
         The start date cann`t be greater than  the liquidation date we must pass this test
         """
         create_salario_minimo()
-        a_fecha_inicio = now()
+        a_fecha_inicio = now().date()
         a_fecha_liquidacion = a_fecha_inicio - timedelta(days=30)
         instancia_mala = Liquidacion(fecha_inicio=a_fecha_inicio, fecha_liquidacion=a_fecha_liquidacion)
         self.assertEqual(instancia_mala.dias_trabajados_anual, 0)
         self.assertEqual(instancia_mala.dias_trabajados_primer_semestre, 0)
         self.assertEqual(instancia_mala.dias_trabajados_segundo_semestre, 0)
+
 
     def test_liquidacion_solo_primer_semestre(self):
         """
@@ -104,6 +109,8 @@ class LiquidacionMethodTest(TestCase):
         self.assertEqual(liquidacion_primer_s.pago_indemnizacion, 0, "se esta calculando indemnizacion por defecto")
         self.assertEqual(liquidacion_primer_s.pago_indemnizacion_moratoria, 0, "se esta calculando mora por defecto")
         self.assertEqual(liquidacion_primer_s.pago_indemnizacion_cesantias, 0, "se esta calculando indemnizacion por cesantias")
+        self.assertEqual(liquidacion_primer_s.pago_salarios, 1000000/2, "no se calculo correctamente la ultima quincena")
+        self.assertEqual(liquidacion_primer_s.deduccion_prestamos, 3, "prestamos not ok")
 
 
     def test_liquidacion_solo_segundo_semestre(self):
@@ -137,6 +144,8 @@ class LiquidacionMethodTest(TestCase):
         self.assertEqual(liquidacion_segundo_s.pago_indemnizacion_moratoria, 0, "se esta calculando mora por defecto")
         self.assertEqual(liquidacion_segundo_s.pago_indemnizacion_cesantias, 0,
                          "se esta calculando indemnizacion por cesantias")
+        self.assertEqual(liquidacion_segundo_s.pago_salarios, 1000000 / 2,
+                         "no se calculo correctamente la ultima quincena")
 
     def test_liquidacion_en_mitad_anio(self):
         """
@@ -168,6 +177,8 @@ class LiquidacionMethodTest(TestCase):
         self.assertEqual(liquidacion_mitad_s.pago_indemnizacion_moratoria, 0, "se esta calculando mora por defecto")
         self.assertEqual(liquidacion_mitad_s.pago_indemnizacion_cesantias, 0,
                          "se esta calculando indemnizacion por cesantias")
+        self.assertEqual(liquidacion_mitad_s.pago_salarios, 1000000 / 2,
+                         "no se calculo correctamente la ultima quincena")
 
     def test_liquidacion_sin_justa_causa_actual_menos_de_anio_indefinido(self):
         """
@@ -195,6 +206,8 @@ class LiquidacionMethodTest(TestCase):
         self.assertAlmostEqual(i_liquid_sin_justa_causa.subtotal_indemnizaciones,
                                i_liquid_sin_justa_causa.pago_indemnizacion, 2,
                                """el total de liquidacion no  es igual a la indemnizacion""")
+        self.assertEqual(i_liquid_sin_justa_causa.pago_salarios, 1000000 / 2,
+                         "no se calculo correctamente la ultima quincena")
 
     def test_liquidacion_sin_justa_causa_actual_mas_de_un_anio_indefinited(self):
         """
@@ -223,6 +236,8 @@ class LiquidacionMethodTest(TestCase):
         self.assertAlmostEqual(i_liquid_sin_justa_causa.subtotal_indemnizaciones,
                                i_liquid_sin_justa_causa.pago_indemnizacion, 2,
                                """el total de liquidacion no  es igual a la indemnizacion""")
+        self.assertEqual(i_liquid_sin_justa_causa.pago_salarios, 1000000 / 2,
+                         "no se calculo correctamente la ultima quincena")
 
     def test_liquidacion_sin_justa_causa_actual_termino_fijo(self):
         """
@@ -255,6 +270,9 @@ class LiquidacionMethodTest(TestCase):
         i_liquid_sin_justa_causa.fecha_finalizacion = date(now().year+1, 12, 29).date()
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_indemnizacion, 1000000 * 360/30, 2,
                                """La liquidacion no se esta calculando correctamente sin justa causa""")
+        self.assertEqual(i_liquid_sin_justa_causa.total_liquidacion_a_favor_empleado,5,"no da el total")
+        self.assertEqual(i_liquid_sin_justa_causa.pago_salarios, 1000000 / 2,
+                         "no se calculo correctamente la ultima quincena")
 
 ########################################################################################################################
 #################################SALARIOS POR DIAS EMP_DOMESTICO############################################################
@@ -386,7 +404,7 @@ class LiquidacionMethodTest(TestCase):
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_prima_diciembre, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7) * 6 / 12, 2,
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
-        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7), 2,
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7), 0,
                                """Las cesantias no se calculan bien cuando hay despido sin justa causa""")
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_vacaciones, (1000000*a_dias_semanales/7) *12/24, 2,
                                """Las vacaciones no se calcullan bien cuando hay despido sin justa causa""")
@@ -417,7 +435,7 @@ class LiquidacionMethodTest(TestCase):
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_prima_diciembre, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7) * 6 / 12, 2,
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
-        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7), 2,
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7), 0,
                                """Las cesantias no se calculan bien cuando hay despido sin justa causa""")
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_vacaciones, (1000000*a_dias_semanales/7) *12/24, 2,
                                """Las vacaciones no se calcullan bien cuando hay despido sin justa causa""")
@@ -448,7 +466,7 @@ class LiquidacionMethodTest(TestCase):
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_prima_diciembre, (BASE_CESANTIAS_PRIMA*a_dias_semanales/7) * 6 / 12, 2,
                                """la prima de julio no se esta calculando correctamente sin justa causa """)
-        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7), 2,
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_total_cesantias, (BASE_CESANTIAS_PRIMA * a_dias_semanales / 7), 0,
                                """Las cesantias no se calculan bien cuando hay despido sin justa causa""")
         self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_vacaciones, (1000000*a_dias_semanales/7) *12/24, 2,
                                """Las vacaciones no se calcullan bien cuando hay despido sin justa causa""")
@@ -459,7 +477,8 @@ class LiquidacionMethodTest(TestCase):
                                """el total de liquidacion no  es igual a la indemnizacion""")
 
         i_liquid_sin_justa_causa.fecha_finalizacion = date(now().year+1, 12, 29)
-        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_indemnizacion, (1000000*a_dias_semanales/7) * 360/30, 2,
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.salario_basico,1000000/7, 0,"le salarie esta male")
+        self.assertAlmostEqual(i_liquid_sin_justa_causa.pago_indemnizacion, (1000000*a_dias_semanales/7) * 360/30, 0,
                                """La liquidacion no se esta calculando correctamente sin justa causa""")
 
 

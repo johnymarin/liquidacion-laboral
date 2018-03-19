@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'liquidacion/base.html' %}
 
-</body>
-</html>
+<!-- TODO set up the email server for this page -->
+{% block content %}
+<h1>Estamos Aca para Ayudarle</h1>
+<p>Somos un equipo versatil integrado por profesionales de diferentes areas desde la ingenieria hasta las finanzas ,
+    unidos, amables  y puedes escribirnos en cualquier momento que nosotros responderemos tus inquietudes.</p>
+
+<!--FIXME pure.css class "pure-u-23-24" must be added to this form input fields -->
+
+<form role="form" action="" method="post"
+      class="pure-form pure-form-aligned">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit"
+            class="pure-button pure-button-primary">Submit</button>
+</form>
+
+{% endblock %}

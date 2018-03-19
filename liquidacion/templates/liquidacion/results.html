@@ -1,5 +1,6 @@
 {% extends 'liquidacion/base.html' %}
 {% block content %}
+{% load humanize %}
 <!--TODO add number formatting-->
 <h1> Liquidacion de Prestaciones Sociales</h1>
 <div name="datos_empleador">
@@ -45,7 +46,7 @@
             </tr>
             <tr>
                 <th>Total Dias Laborados:</th>
-                <td>{{liquidacion.dias_trabajados_anual | default_if_none:"0"}}</td>
+                <td>{{liquidacion.dias_trabajados_anual | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Causal Terminacion:</th>
@@ -59,33 +60,30 @@
     <table class="pure-table pure-table-striped">
         <thead>
             <tr>
-                <th>Salarios</th>
+                <th>Salario Liquidacion</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <th>Salario Basico:</th>
-                <td>{{liquidacion.salario_basico}}</td>
+                <td>{{liquidacion.salario_basico | intcomma|default_if_none:"0.00"}}</td>
+
             </tr>
             <tr>
                 <th>Auxilo Transporte:</th>
-                <td>{{liquidacion.pago_auxilio_transporte}}</td>
+                <td>{{liquidacion.auxilio_transporte | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
-                <th>Promedio Horas Extra:</th>
-                <td>{{liquidacion.pagos_extras}}</td>
+                <th>Horas Extra :</th>
+                <td>{{liquidacion.horas_extra | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Bonificaciones</th>
-                <td>{{liquidacion.bonificaciones}}</td>
-            </tr>
-            <tr>
-                <th>Otros Pagos Salariales:</th>
-                <td>{{liquidacion.otros_ingresos_salariales}}</td>
+                <td>{{liquidacion.bonificaciones | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Salario Base Liquidacion:</th>
-                <td>{{liquidacion.subtotal_salarios}}</td>
+                <td>{{liquidacion.subtotal_pagos | intcomma|default_if_none:"0.00"}}</td>
             </tr>
         </tbody>
     </table>
@@ -102,36 +100,36 @@
         <tbody>
             <tr>
                 <th>Cesantias:</th>
-                <td>{{liquidacion.pago_total_cesantias | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.pago_total_cesantias | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Consignadas al Fondo:</th>
-                <td>{{liquidacion.cesantias_consignadas_fondo | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.cesantias_consignadas_fondo | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Para Pago Al Empleado:</th>
-                <td>{{liquidacion.pago_cesantias_anio_actual | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.pago_cesantias_anio_actual | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Intereses A Las Cesantias:</th>
-                <td>{{liquidacion.pago_intereses_cesantias | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.pago_intereses_cesantias | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Prima De Junio:</th>
-                <td>{{liquidacion.pago_prima_junio | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.pago_prima_junio | intcomma|default_if_none:"0.00"}}</td>
             </tr> <tr>
                 <th>Prima De Diciembre:</th>
-                <td>{{liquidacion.pago_prima_diciembre | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.pago_prima_diciembre | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Vacaciones:</th>
-                <td>{{liquidacion.pago_vacaciones | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.pago_vacaciones | intcomma|default_if_none:"0.00"}}</td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
                 <th>Total Liquidacion Prestaciones:</th>
-                <td>{{liquidacion.subtotal_prestaciones | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.subtotal_prestaciones | intcomma|default_if_none:"0.00"}}</td>
             </tr>
         </tfoot>
     </table>
@@ -147,25 +145,26 @@
         <tbody>
             <tr>
                 <th>Salario Por Pagar:</th>
-                <td>{{liquidacion.pago_salarios | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.pago_salarios | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Pago Extras:</th>
-                <td>{{liquidacion.pago_extras | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.pago_extras | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Pago Bonificaciones:</th>
-                <td>{{liquidacion.bonificaciones | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.bonificaciones_pendientes | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
+                <!--TODO otros_ingresos_salariales does not exist delete or implement-->
                 <th>Pago Otros Ingresos:</th>
-                <td>{{liquidacion.otros_ingresos_salariales | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.otros_ingresos_salariales | intcomma|default_if_none:"0.00"}}</td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
                 <th>Total Salarios:</th>
-                <td>{{liquidacion.subtotal_salarios | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.subtotal_pago_nomina | intcomma|default_if_none:"0.00"}}</td>
             </tr>
         </tfoot>
     </table>
@@ -180,22 +179,22 @@
         </thead>
         <tbody>
         <tr>
-            <th>Indemizacion Por Despido Sin Justa Causa:</th>
-            <td>{{liquidacion.pago_indemizacion | default_if_none:"0.00"}}</td>
+            <th>Indemnizacion Por Despido Sin Justa Causa:</th>
+            <td>{{liquidacion.pago_indemnizacion | intcomma|default_if_none:"0.00"}}</td>
         </tr>
         <tr>
             <th>Indemnizacion Por No Pago De Prestaciones(Moratoria):</th>
-            <td>{{liquidacion.pago_indemizacion_moratoria | default_if_none:"0.00"}}</td>
+            <td>{{liquidacion.pago_indemnizacion_moratoria | intcomma|default_if_none:"0.00"}}</td>
         </tr>
         <tr>
             <th>Indemnizacion Por No Consignacion Cesantias:</th>
-            <td>{{liquidacion.pago_indemnizacion_cesantias | default_if_none:"0.00"}}</td>
+            <td>{{liquidacion.pago_indemnizacion_cesantias | intcomma|default_if_none:"0.00"}}</td>
         </tr>
         </tbody>
         <tfoot>
         <tr>
             <th>Total Indemnizaciones:</th>
-            <td>{{liquidacion.subtotal_indemnizaciones | default_if_none:"0.00"}}</td>
+            <td>{{liquidacion.subtotal_indemnizaciones | intcomma|default_if_none:"0.00"}}</td>
         </tr>
         </tfoot>
     </table>
@@ -211,43 +210,44 @@
         <tbody>
             <tr>
                 <th>Deduccion Por Salud:</th>
-                <td>{{liquidacion.deduccion_salud | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.deduccion_salud | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Deduccion Por Pensiones:</th>
-                <td>{{liquidacion.deduccion_pension | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.deduccion_pension | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
+                <!--TODO review deduccion_retefuente_indemnizacion -->
                 <th>Deduccion Por Retencion En La Fuente:</th>
-                <td>{{liquidacion.deduccion_retefuente_indemnizacion | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.deduccion_retefuente_indemnizacion | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Deduccion Por Prestamos:</th>
-                <td>{{liquidacion.deduccion_prestamos | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.deduccion_prestamos | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Deduccion Por Aportes Fondo Empleados:</th>
-                <td>{{liquidacion.deduccion_fondo_empleados | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.deduccion_fondo_empleados | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Deduccion Por Cooperativas:</th>
-                <td>{{liquidacion.deduccion_cooperativas | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.deduccion_cooperativas | intcomma|default_if_none:"0.00"}}</td>
             </tr>
             <tr>
                 <th>Deduccion Por Libranzas:</th>
-                <td>{{liquidacion.deduccion_libranzas | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.deduccion_libranzas | intcomma|default_if_none:"0.00"}}</td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
                 <th>Total Deducciciones A Los Pagos:</th>
-                <td>{{liquidacion.subtotal_deducciones | default_if_none:"0.00"}}</td>
+                <td>{{liquidacion.subtotal_deducciones | intcomma|default_if_none:"0.00"}}</td>
             </tr>
         </tfoot>
     </table>
 </div>
 <div name="Total">
     <h2>Total Pagos:</h2>
-    <p>Total liquidacion a favor del empleado: <h3>{{liquidacion.total_liquidacion_a_favor_empleado | default_if_none:"0.00"}}</h3></p>
+    <p>Total liquidacion a favor del empleado: <h3>{{liquidacion.total_liquidacion_a_favor_empleado | intcomma|default_if_none:"0.00"}}</h3></p>
 </div>
 {% endblock %}

@@ -8,12 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Liquidacion Laboral</title>
     <script src="https:/ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-
     <link rel="shortcut icon" href="{%  static 'images/favicon-calculator.ico' %}">
-
     <link rel="stylesheet" href="{% static 'djangostyle.css' %}">
-
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
       (adsbygoogle = window.adsbygoogle || []).push({
@@ -32,11 +28,11 @@
             <div class="container">
                 <!--::before-->
                 <!--TODO add link to IC page add meta-->
-                <a  href="#">
-                    <object type="image/svg+xml" data="{% static 'images/logo.svg' %}">
+
+                    <object  type="image/svg+xml" data="{% static 'images/logo.svg' %}" class="logo">
                         probando objeto
                     </object>
-                </a>
+
                 <p class="meta">nothing for the moment</p>
 
                 <div role="navigation">
@@ -57,9 +53,7 @@
 
 
         this is my main
-        <object type="image/svg+xml" data="{% static 'images/logo.svg' %}">
-            probando objeto
-        </object>
+
         {% include 'liquidacion/messages_snippet.html' %}
 
         {% block content %}

@@ -16,12 +16,21 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from liquidacion.views import home as homeview
+from homeapp.views import index as home2indexview
+from liquidacion.views import tictactoe as tictactoeview
+from liquidacion.views import contact as contactview
+from liquidacion.views import terms as termsview
 from graphene_django.views import GraphQLView
 
 urlpatterns = [
     # TODO point the root url to a home view in the home app http://grasshopperpebbles.com/django-python/how-to-set-up-a-home-page-with-django/
     url(r'^$', homeview, name="home"),
+    url(r'^home2/', home2indexview),
     url(r'^liquidacion/', include('liquidacion.urls')),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^graphql', GraphQLView.as_view(graphiql = True)),
+    url(r'^tictactoe',tictactoeview , name="tictactoe"),
+    url(r'^contact',contactview, name="contact"),
+    url(r'^terms',termsview, name="terms"),
 ]

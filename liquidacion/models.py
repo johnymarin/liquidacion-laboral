@@ -1,14 +1,20 @@
-from datetime import timedelta, date
-
+from datetime import timedelta, date, datetime
 
 from django.db import models
 from django.utils.timezone import now
+from django.utils.translation import ugettext
+
 import datos_laborales.models
 import datos_tributarios.models
+
+import inspect
 
 
 # Create your models here.
 class Liquidacion(models.Model):
+
+
+
     INDEFINIDO='ind'
     FIJO='fij'
     OBRA='obr'
@@ -56,7 +62,7 @@ class Liquidacion(models.Model):
     fecha_liquidacion = models.DateField(default=date(now().year, now().month, now().day),
                                          help_text="""La fecha en la cual se paga la liquidacion del contrato ya sea por despido,
                                          por renuncia o simplemente por vencimiento""")
-    fecha_finalizacion = models.DateField(default=date(now().year, now().month, now().day),
+    fecha_finalizacion = models.DateField(default=None,
                                           help_text="""Solo para contratos a termino fijo o por obra y labor:
                                           Corresponde a la fecha que se acordo iba a finalizar el contrato """)
     causal_terminacion = models.CharField(max_length=200, verbose_name='motivo terminacion del contrato',
@@ -101,6 +107,9 @@ class Liquidacion(models.Model):
                                                por concepto de horas extra.""")
     dias_nomina = models.DecimalField(decimal_places=0, max_digits=14, default=15,
                                       help_text="""El numero de dias de nomina pendientes por pagar a la hora de liquidar""")
+    bonificaciones_pendientes = models.FloatField(max_length=15, default=0,
+                                                  help_text="""Para los salarios pendientes por pagar indica el pago pendiente por
+                                        concepto de bonificaciones""")
     bonificaciones_primer_semestre = models.DecimalField(decimal_places=2,max_digits=14, default=0,
                                                          help_text="""Total pagado por concepto de bonificaciones, comisiones o
                                                          cualquiera que sea la denominacion que se de, durante el primer semestre""")
@@ -137,26 +146,59 @@ class Liquidacion(models.Model):
     aportes_cooperativas = models.DecimalField(decimal_places=2,default=0, max_digits=14,
                                                help_text="""Valor descontado por aportes en coopertivas""")
 
+    def my_get_doc(self, p_name):
+        "do nothing"
+        my_atribbute = inspect.getattr_static(self, p_name)
+        translated = ugettext(my_atribbute)
+        return translated
+
+
 
     @property
     def salario_minimo(self):
+        """ El salario minimo, que se le paga a cualquier empleado al momento de terminar el contrato de trabajo.
 
-        if self.clase_contrato == self.INDEFINIDO:
-            anio = self.fecha_finalizacion.year
+        Para el caso de las personas con contrato a termino indefinido, como su contrato no contempla finalizacion
+        se debe considerar el salario minimo vigente en el año al momento de la liquidacion, para  los demas tipos de
+        contratos se debe considerar que la fecha de la liquidacion puede ser antes o despues  de la fecha estipulada
+        como la finalizacion del contrato.
+
+        :return: El salario minimo en el año de terminacion
+        """
+        if self.clase_contrato == self.INDEFINIDO or self.fecha_finalizacion is None:
+            fecha = self.fecha_liquidacion
         else :
-            anio = self.fecha_liquidacion.year
-
+            fecha = min(self.fecha_finalizacion, self.fecha_liquidacion)
+        anio = fecha.year
         instancia = datos_laborales.models.SalarioMinimo.objects.get(pk=anio)
         return instancia
 
     @property
+    def foo(self):
+        "foooo fooo fooo"
+        feo = inspect.getattr_static(self, 'foo')
+        pass
+
+
+
+
+
+
+
+
+
+    @property
     def salario_basico(self):
-        """
-        salario base no puede ser inferior al salario minimo mensual legal vigente,
+        """Salario basico promedio, que gana el empleado en el periodo en que se hace la liquidacion.
+
+        Salario base no puede ser inferior al salario minimo mensual legal vigente,
         para los salarios variables o semi variables se hace el calculo del promedio
         incluyendo las comisiones o bonificaciones y excluyendo horas extras
         y para las personas que trabajan por dias el salario basico es el equivalente al mensual teniendo en cuenta
         semanas en un año de 360 dias (Un dia real equivale a 1,07 dias aproximadamente)
+
+        :return: El salario promedio mensual que gana un empleado o el salario minimo mensual vigente. En caso de
+        las personas que devengan un jornal retorna el salario promedio diario o el salario minimo diario.
         """
         es_jornal = self.tipo_salario in (self.EMP_DOMESTICO, self.EMP_CONSTRUCCION)
         if not es_jornal:
@@ -165,7 +207,7 @@ class Liquidacion(models.Model):
             variable = (float(self.bonificaciones_primer_semestre)+float(self.bonificaciones_segundo_semestre))/12
             promedio = ultimo + variable
             formula = max(minimo, promedio)
-            return formula
+            return round(formula,2)
         else:
             dias_semanales = float(self.dias_semanales)
             dias_factor_semanal = dias_semanales * 30 / 7
@@ -174,23 +216,30 @@ class Liquidacion(models.Model):
             variable_diario = (float(self.bonificaciones_primer_semestre)+float(self.bonificaciones_segundo_semestre))/360
             promedio_diario = salario_diario + variable_diario
             formula = max(minimo_diario, promedio_diario) * dias_factor_semanal
-            return formula
+            return round(formula,2)
+    def explicacion_salario_basico(self):
+        return self.my_get_doc('salario_basico')
+
+
 
     @property
-    def pago_auxilio_transporte(self):
-        """
-        Solo tienen derecho al auxilio de transporte aquello que ganen menos de dos salarios minimos mensuales.
-        el auxilio de trasnporte no es un pago que constituya salario por lo tanto no se incluye en  el calculo de
+    def auxilio_transporte(self):
+        """Remuneracion entregada al empleador para facilitar su movilizacion hasta el lugar de trabajo.
+
+        Solo tienen derecho al auxilio de transporte aquellos que ganen menos de dos salarios minimos mensuales.
+        el auxilio de trasnporte no es un pago que constituya salario, por lo tanto no se incluye en  el calculo de
         aportes parafiscales ni de aportes a seguridad social, pero si se incluye para calcular las prestaciones sociales
-        segun el articulo 7 de la ley 01 de 1963
+        segun el articulo 7 de la ley 01 de 1963.
+
+        :return: El valor del auxilio de transporte mensual o diario en caso de tener derecho, o cero en caso contrario.
         """
         es_jornal = self.tipo_salario in (self.EMP_DOMESTICO, self.EMP_CONSTRUCCION)
         if not es_jornal:
             tiene_auxilio = self.ultimo_salario < (self.salario_minimo.smmlv*2)
             if tiene_auxilio :
-                return float(self.salario_minimo.aux_trans)
+                return round(float(self.salario_minimo.aux_trans),2)
             else:
-                return 0
+                return 0.00
         else:
             tiene_auxilio_diario = self.salario_diario < (self.salario_minimo.smdlv*2)
             if tiene_auxilio_diario:
@@ -198,26 +247,79 @@ class Liquidacion(models.Model):
                 dias_factor_semanal = dias_semanales * 30 / 7
                 return float(self.salario_minimo.aux_trans_diario) * dias_factor_semanal
             else:
-                return 0
+                return 0.00
+
+    @property
+    def horas_extra(self):
+        """Suma de las horas extra del primer y del segundo semestre.
+
+        Consolida el valor calculado por horas extra cada semestre semestre.
+
+        :return: la suma del valor por horas extra el primer semestre y el valor por horas extra el segundo semestre.
+        """
+        return self.horas_extra_primer_semestre + self.horas_extra_segundo_semestre
+
+    @property
+    def bonificaciones(self):
+        """Suma de las bonificaciones del primer y segundo semestre.
+
+        Consolida el valor calculado por bonificaciones del primer y del segundo semestre.
+
+        :return: La suma del valor por bonificacones del primer semestre y el valor por bonificaciones del segundo
+        semestre.
+        """
+        return self.bonificaciones_primer_semestre + self.bonificaciones_segundo_semestre
+
+
+    @property
+    def subtotal_pagos(self):
+        """Subtotal por concepto de pagos al empleado.
+
+        :return: la suma de salario basico, auxilio de transporte, horas extra y bonificaciones.
+        """
+        formula = 0
+        for campo in (self.salario_basico, self.auxilio_transporte, self.horas_extra, self.bonificaciones):
+            formula += float(campo)
+        return formula
 
 
 
-#corregir pues la uvt se determina igual que la liquidacion
+
+# TODO corregir pues la uvt se determina igual que la liquidacion
     @property
     def uvt(self):
+        """Unidad de Valor Tributario en la fecha de pago al empleado.
+
+        La unidad de valor tributario (UVT) tiene como fin reemplazar los valores tributarios en  moneda legal, con
+        el fin de estandarizar y homogeneizar los distintos valores tributarios.
+
+        :return: La UVT del año en el cual se efectua la liquidacion.
+        """
         unidad = datos_tributarios.models.UnidadValorTributario.objects.get(vigencia_UVT=self.fecha_liquidacion.year)
         return unidad
 
     @property
     def porcentaje_aportes_salud(self):
-        aport = datos_laborales.models.AporteSalud.objects.filter(inicio_vigencia__lt=self.fecha_liquidacion,
-                                                                final_vigencia__gt=self.fecha_liquidacion)
+        """Porcentaje de Aportes en Salud.
+
+        En colombia existe un porcentaje de aportes en salud y pension que deben cotizar tanto los empleadores como,
+        los empleados.
+
+        :return: El Aporte del empleado en Salud.
+        """
+        aport = datos_laborales.models.AporteSalud.objects.filter(inicio_vigencia__lt=self.fecha_liquidacion).order_by('-inicio_vigencia')
         return aport[0]
 
     @property
     def porcentaje_aporte_pension(self):
-        aport = datos_laborales.models.AportePension.objects.filter(inicio_vigencia__lt=self.fecha_liquidacion,
-                                                                   final_vigencia__gt=self.fecha_liquidacion)
+        """Porcentaje de Aportes en Pension.
+
+        En colombia existe un porcentaje de aportes en salud y pension que deben cotizar tanto los empleadores como,
+        los empleados.
+
+        :return: El Apprte del empleado en Pension.
+        """
+        aport = datos_laborales.models.AportePension.objects.filter(inicio_vigencia__lt=self.fecha_liquidacion).order_by('-inicio_vigencia')
         return aport[0]
 
 #SECCION PAGOS PRESTACIONALES
@@ -235,17 +337,22 @@ class Liquidacion(models.Model):
 
     @property
     def dias_trabajados_anual(self):
-        """"
-        diferencia entre la fecha de terminacion del contrato y la fecha de inicio, expresada en dias,
-         suponiendo 12 meses de 30 dias, no puede ser mayor a 360 dias ya que anualmente se consignan las cesantias
-         en el fondo de pension.
-         """
+        """" Total dias trabajados en un año.
+
+        El valor de las cesantias que se aportan al fondo de pension en ningun caso puede ser mayor a 360 dias debido
+        a que o se pagan al finalizar el contrato o se consignan el 14 de febrero de cada año al fondo.
+
+        :return diferencia entre la fecha de terminacion del contrato y la fecha de inicio, expresada en dias,
+        suponiendo 12 meses de 30 dias, no puede ser mayor a 360 dias.
+        """
         diasdif = (
             ((self.fecha_liquidacion.year*12 + self.fecha_liquidacion.month)*30 + min(self.fecha_liquidacion.day,30))-
             ((self.fecha_inicio.year*12 + self.fecha_inicio.month)*30 + min(self.fecha_inicio.day,30))
         )
-        #pediente validar los casos mayores a 360 dias
-        return  min(diasdif + 1, 360)
+
+        # TODO validar los casos mayores a 360 dias
+        # TODO  agregar un aviso indicando que se superaron los 360 dias y se debe dividir el calculo
+        return max(min(diasdif + 1, 360),0)
 
     @property
     def dias_trabajados_anio_actual(self):
@@ -261,43 +368,41 @@ class Liquidacion(models.Model):
             )
         )
         diasdif = diasdif + 1
-        return (diasdif)
+        return max(0, diasdif)
 
     @property
     def dias_trabajados_primer_semestre(self):
         """diferencia entre la finalizacion del primer semestre y
         el mayor entre la fecha de inico del trabajo o el primero de enero del año en curso
         """
-
         fecha_inicial = max(self.fecha_inicio, date(self.fecha_liquidacion.year, 1, 1))
 
         fecha_final = min(self.fecha_liquidacion, date(self.fecha_liquidacion.year, 6, 30))
         if (fecha_inicial > date(self.fecha_liquidacion.year, 6, 30)):
-            return 0
+            return 0.00
         else:
             diasdif = (
                 ((fecha_final.year*12 + fecha_final.month)*30 + min(fecha_final.day,30))-
                 ((fecha_inicial.year*12 + fecha_inicial.month)*30 + min(fecha_inicial.day, 30))
             )
-            return diasdif + 1
+            return max(0, diasdif + 1)
 
     @property
     def dias_trabajados_segundo_semestre(self):
         """diferencia entre la finalizacion del segundo semestre y
         el mayor entre la fecha de inico del trabajo o el primero de julio del año en curso
         """
-
         fecha_inicial = max(self.fecha_inicio, date(self.fecha_liquidacion.year, 7, 1))
         fecha_final = min(self.fecha_liquidacion, date(self.fecha_liquidacion.year, 12, 30))
 
         if (fecha_final < date(self.fecha_liquidacion.year, 7, 1)):
-            return 0
+            return 0.00
         else:
             diasdif = (
                 ((fecha_final.year*12 + fecha_final.month)*30 + min(fecha_final.day,30))-
                 ((fecha_inicial.year*12 + fecha_inicial.month)*30 + min(fecha_inicial.day, 30))
             )
-            return diasdif + 1
+            return max(0, diasdif + 1)
 
 
     @property
@@ -335,7 +440,7 @@ class Liquidacion(models.Model):
         tacitamente por la ley 50/1990
         """
         aplica_art_310 = self.aplica_art_310 and self.tipo_salario==Liquidacion.EMP_CONSTRUCCION
-        salario_base_con_auxilio = float(self.salario_basico) + float(self.pago_auxilio_transporte)
+        salario_base_con_auxilio = float(self.salario_basico) + float(self.auxilio_transporte)
         dias_trabajados = float(self.dias_trabajados_anual) - float(self.dias_suspencion_total)
         if aplica_art_310:
             formula = salario_base_con_auxilio * dias_trabajados / 300
@@ -353,7 +458,7 @@ class Liquidacion(models.Model):
         que depende si aplica art 310 o no.
         """
         aplica_art_310 = self.aplica_art_310 and self.tipo_salario==Liquidacion.EMP_CONSTRUCCION
-        salario_base_con_auxilio = float(self.salario_basico) + float(self.pago_auxilio_transporte)
+        salario_base_con_auxilio = float(self.salario_basico) + float(self.auxilio_transporte)
         dias_trabajados = float(self.dias_trabajados_anio_actual) - float(self.dias_suspencion_total)
         if aplica_art_310:
             formula = salario_base_con_auxilio * dias_trabajados / 300
@@ -388,7 +493,7 @@ class Liquidacion(models.Model):
         para el calculo de la base es necesario sumar el auxilio de transporte (si lo hubiere)
         pago correspondiente a la prima de junio: salario basico mensual  * dias trabajado semestre / 360
         """
-        salario_base_con_auxilio = float(self.salario_promedio_semestre1) + float(self.pago_auxilio_transporte)
+        salario_base_con_auxilio = float(self.salario_promedio_semestre1) + float(self.auxilio_transporte)
         dias_trabajados =int(self.dias_trabajados_primer_semestre)
         formula = salario_base_con_auxilio * dias_trabajados/360
         return  round(formula, 2)
@@ -399,7 +504,7 @@ class Liquidacion(models.Model):
         para el calculo de la base es necesario sumar el auxilio de transporte (si lo hubiere)
         pago correspondiente a la prima de diciembre: salario basico mensual  * dias trabajado semestre / 360
         """
-        salario_promedio = float(self.salario_promedio_semestre2) + float(self.pago_auxilio_transporte)
+        salario_promedio = float(self.salario_promedio_semestre2) + float(self.auxilio_transporte)
         dias_trabajados = float(self.dias_trabajados_segundo_semestre)
         formula = salario_promedio * dias_trabajados/360
         return  round(formula, 2)
@@ -425,7 +530,6 @@ class Liquidacion(models.Model):
                        self.pago_prima_junio, self.pago_prima_diciembre,
                        self.pago_vacaciones):
             formula = formula + float(campo)
-
         return formula
 
 #SECCION SALARIOS
@@ -434,8 +538,8 @@ class Liquidacion(models.Model):
     @property
     def pago_salarios(self):
         "el salario base multiplicados por los dias en nomina"
-        formula = self.salario_basico*self.dias_nomina/30
-        return formula
+        formula = float(self.salario_basico)*float(self.dias_nomina)/30
+        return round(formula, 2)
 
 
     @property
@@ -445,10 +549,10 @@ class Liquidacion(models.Model):
         return extras
 
     @property
-    def subtotal_salarios(self):
+    def subtotal_pago_nomina(self):
         "suma subtotal de los pagos correspondientes a salarios"
         formula = 0
-        for campo in (self.pago_salarios, self.pago_extras, self.bonificaciones):
+        for campo in (self.pago_salarios, self.pago_extras, self.bonificaciones_pendientes):
             formula += float(campo)
         return formula
 
@@ -499,24 +603,26 @@ class Liquidacion(models.Model):
                 indem_obra = dias * salario_base_diario
                 return indem_obra
         else:
-            return 0
+            return 0.00
 
     @property
     def pago_indemnizacion_interes(self):
         "esta procede solo en el caso que el fondo de pension demora injustificadamente el pago "\
         "y solo si proviene del sistema general de pensiones"
-        return 0
+        return 0.00
 
     @property
     def pago_indemnizacion_moratoria(self):
         """
         solo procede cuando un juez comprueba que hubo mala fe en el no pago de las prestaciones sociales
         """
-        if self.fecha_finalizacion < self.fecha_liquidacion:
-            return 0
-        elif self.fecha_finalizacion >= self.fecha_liquidacion:
-            fecha_final = self.fecha_liquidacion
-            fecha_inicial = self.fecha_finalizacion
+        fecha_final = self.fecha_liquidacion
+        fecha_inicial = self.fecha_finalizacion
+        if self.fecha_finalizacion is None:
+            return 0.00
+        elif fecha_inicial >= fecha_final:
+            return 0.00
+        elif fecha_inicial < fecha_final:
             dias = (
                 ((fecha_final.year * 12 + fecha_final.month) * 30 + min(fecha_final.day, 30)) -
                 ((fecha_inicial.year * 12 + fecha_inicial.month) * 30 + min(fecha_inicial.day, 30))
@@ -532,18 +638,20 @@ class Liquidacion(models.Model):
     @property
     def pago_indemnizacion_cesantias(self):
         if self.fecha_finalizacion is None:
-            return 0
+            return 0.00
+        elif self.cesantias_consignadas:
+            return 0.00
         else:
             fecha_consignacion = min(self.fecha_finalizacion, self.fecha_liquidacion)
             fecha_consignacion = date(fecha_consignacion.year,2,14)
             dias = max((self.fecha_liquidacion - fecha_consignacion).days,0)
             formula = (self.ultimo_salario/30)*dias
-            return formula
+            return round(formula,2)
 
     @property
     def subtotal_indemnizaciones(self):
         "subtotal con las sumas a pagar por indemnizaciones si un juez asi lo decide"
-        formula = 0
+        formula = 0.00
         for campo in (self.pago_indemnizacion, self.pago_indemnizacion_moratoria, self.pago_indemnizacion_cesantias):
             formula = formula + float(campo)
         return formula
@@ -551,49 +659,53 @@ class Liquidacion(models.Model):
 #SECCION DEDUCCIONES
     @property
     def deduccion_pension(self):
-        formula = self.subtotal_salarios * self.porcentaje_aporte_pension.porcentaje_aporte_empleado
-        return formula
+        formula = self.subtotal_pago_nomina * self.porcentaje_aporte_pension.porcentaje_aporte_empleado
+        return round(formula, 2)
+
     @property
     def deduccion_salud(self):
-        formula = self.subtotal_salarios*self.porcentaje_aportes_salud.porcentaje_aporte_empleado
-        return formula
+        formula = self.subtotal_pago_nomina * self.porcentaje_aportes_salud.porcentaje_aporte_empleado
+        return round(formula,2)
 
     @property
     def deduccion_retefuente_indemnizacion(self):
         "retorna el valor correspondiente a la retencion en la fuente por las indemnizaciones."
         limite = 204 * self.uvt.valor_UVT
         if self.salario_promedio <= limite:
-            return 0
+            return 0.00
         elif self.salario_promedio > limite:
             execnto = self.subtotal_indemnizaciones * 0.25
             formula = (self.subtotal_indemnizaciones - execnto)*0.20
-            return formula
+            return round(formula, 2)
 
     @property
     def maximo_deducible(self):
         "maximo que se le puede deducir a una persona sin afectar el 50% de un salario minimo"
-        formula = (self.subtotal_salarios - self.deduccion_salud - self.deduccion_pension) - self.salario_minimo.smmlv/2
+        formula = (self.subtotal_pago_nomina - self.deduccion_salud - self.deduccion_pension) - float(self.salario_minimo.smmlv) / 2.0
         return formula
 
     @property
     def deduccion_prestamos(self):
-        "en prestamos ordinarios solo se puede deducir maximo una quinta parte de lo que exceda al salario minim"
-        maximo_deducible_en_prestamos = (self.subtotal_salarios-self.deduccion_salud- self.deduccion_pension - self.salario_minimo.smmlv)/5
-        formula = self.subtotal_salarios*self.porcentaje_descuento_prestamos
-        formula = min(formula,maximo_deducible_en_prestamos, self.maximo_deducible)
-        return  formula
+        "en prestamos ordinarios solo se puede deducir maximo una quinta parte de lo que exceda al salario minimo"
+        maximo_deducible_en_prestamos= 0
+        for campo in (self.subtotal_pago_nomina, -1* self.deduccion_salud, -1* self.deduccion_pension, -1* self.salario_minimo.smmlv):
+            maximo_deducible_en_prestamos = maximo_deducible_en_prestamos + float(campo)
+        maximo_deducible_en_prestamos = (maximo_deducible_en_prestamos) / 5.0
+        formula = float(self.subtotal_pago_nomina) * float(self.porcentaje_descuento_prestamos)
+        formula = min(formula, maximo_deducible_en_prestamos, float(self.maximo_deducible))
+        return round(formula, 2)
 
     @property
     def deduccion_fondo_empleados(self):
         "los aprtes a fondo de empleados no pueden ser mayores al 10% del salario o disminuir el salario por menos de un salario minimo"
-        formula = min(self.aportes_fondo_empleados, self.maximo_deducible, self.subtotal_salarios*0.10)
-        return formula
+        formula = min(self.aportes_fondo_empleados, self.maximo_deducible, self.subtotal_pago_nomina * 0.10)
+        return round(formula, 2)
 
     @property
-    def dedeccion_cooperativas(self):
+    def deduccion_cooperativas(self):
         "las deducciones de cooperativas no puede superar el 50% del salario ni afectar el minimo vital"
         formula = min(self.aportes_cooperativas, self.maximo_deducible)
-        return formula
+        return round(formula, 2)
 
 
 
@@ -607,20 +719,24 @@ class Liquidacion(models.Model):
         descuento_libranzas = porcentaje*salario + cuota
         maximo_deducible = float(self.maximo_deducible)
         formula = min(descuento_libranzas, maximo_deducible)
-        return formula
+        return round(formula, 2)
 
     @property
     def subtotal_deducciones(self):
-        formula = sum(self.deduccion_pension, self.deduccion_salud, self.deduccion_retefuente_indemnizacion,
+        formula = 0
+        for campo in (self.deduccion_pension, self.deduccion_salud, self.deduccion_retefuente_indemnizacion,
                       self.deduccion_prestamos, self.deduccion_fondo_empleados,
-                      self.dedeccion_cooperativas, self.deduccion_libranzas)
+                      self.deduccion_cooperativas, self.deduccion_libranzas):
+            formula = formula + float(campo)
         formula = min(formula, self.maximo_deducible)
         return formula
 
     @property
     def total_liquidacion_a_favor_empleado(self):
-        formula = sum(self.subtotal_salarios, self.subtotal_prestaciones, self.subtotal_indemnizaciones,
-                      -self.subtotal_deducciones)
-        return formula
+        formula = 0
+        for campo in(self.subtotal_pago_nomina, self.subtotal_prestaciones, self.subtotal_indemnizaciones,
+                      -self.subtotal_deducciones):
+            formula =  formula + float(campo)
+        return round(formula, 2)
 
 

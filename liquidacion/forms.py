@@ -56,3 +56,17 @@ class ConfianzaForm(LiquidacionForm):
         model = Liquidacion
         exclude =['fecha_finalizacion','aplica_art_310', 'salario_diario', 'dias_semanales', 'avance_del_contrato',
                   'horas_extra_primer_semestre', 'horas_extra_segundo_semestre', 'horas_extra_pendientes']
+
+
+class BasicaForm(LiquidacionForm):
+    class Meta:
+        model = Liquidacion
+        fields = ['fecha_inicio','fecha_liquidacion','ultimo_salario']
+
+class ContactForm(forms.Form):
+    contact_name = forms.CharField(required=True)
+    contact_email = forms.CharField(required=True)
+    content = forms.CharField(
+        required=True,
+        widget=forms.Textarea
+    )

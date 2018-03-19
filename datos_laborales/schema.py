@@ -3,14 +3,19 @@ from graphene_django.types import DjangoObjectType
 from datos_laborales.models import SalarioMinimo, AporteSalud, AportePension
 
 class SalarioMinimoType(DjangoObjectType):
+    aux_trans_diario = graphene.Float(source = 'aux_trans_diario')
+    variacion_anual = graphene.Float(source = 'variacion_anual')
+    smdlv = graphene.Float(source = 'smdlv')
     class Meta:
         model = SalarioMinimo
 
 class AporteSaludType(DjangoObjectType):
+    total_porcentaje_aportes = graphene.Float(source = 'total_porcentaje_aportes')
     class Meta:
         model = AporteSalud
 
 class AportePensionType(DjangoObjectType):
+    total_porcentaje_aportes = graphene.Float(source = 'total_porcentaje_aportes')
     class Meta:
         model = AportePension
 

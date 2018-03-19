@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load humanize %}
 
 <!DOCTYPE html>
 <html lang="es-ES">
@@ -40,20 +41,21 @@
               <div class="custom-menu-screen"></div>
               <ul class="pure-menu-list">
                   <li class="pure-menu-item"><a href="{% url 'home' %}" class="pure-menu-link">Home</a></li>
+                  <li class="pure-menu-item"><a href="{% url 'contact' %}" class="pure-menu-link">Contact</a></li>
 
-                  <!--TODO make a contact, about, blog and social media pages-->
-<!--
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link">About</a></li>
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link">Contact</a></li>
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link">Blog</a></li>
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link">GitHub</a></li>
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link">Twitter</a></li>
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link">Apple</a></li>
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link">Google</a></li>
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link">Wang</a></li>
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link">Yahoo</a></li>
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link">W3C</a></li>
--->
+                  <!--TODO make a  FAQ, about, blog and social media pages-->
+                  <!--
+                                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">About</a></li>
+                                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">FAQ</a></li>
+                                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Blog</a></li>
+                                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">GitHub</a></li>
+                                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Twitter</a></li>
+                                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Apple</a></li>
+                                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Google</a></li>
+                                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Wang</a></li>
+                                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Yahoo</a></li>
+                                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">W3C</a></li>
+                  -->
               </ul>
           </div>
       </div>
@@ -92,6 +94,7 @@
     </footer>
 
     <script type="text/javascript" src="{% static 'scripts/script.js' %}"></script>
+    <script type="text/javascript" src="{% static '\scripts\public\bundle.js' %}"></script>
 </body>
 
 </html>

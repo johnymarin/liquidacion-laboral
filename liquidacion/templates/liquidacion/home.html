@@ -7,7 +7,36 @@
 <div class="splash-container">
 
     <div class="splash">
-        <h1 class="splash-head">Liquidacion Laboral Colombia</h1>
+        <h2 class="splash-head">
+            Liquidacion Laboral Colombia
+        </h2>
+            <form name="datos_liquidacion2" id="datosLiquidacion2"  method="post"
+                  class="pure-form">
+                <fieldset>
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {% for error in form.non_field_errors %}
+                <div class="pure-alert alert-danger">
+                    <strong>{{error|escape}}</strong>
+                </div>
+                {% endfor %}
+                <legend>Inicio - Fin - Salario</legend>
+                {% for field in form %}
+                    {{ field.errors }}
+                    {{ field }}
+                {% endfor %}
+                <button type="submit"
+                        class="pure-button pure-button-primary">
+                    enviar
+                </button>
+                </fieldset>
+
+            </form>
+
+
+
+
+
         <!--TODO make terminos y condiciones page-->
         <!--TODO when the home app is ready namespace this url-->
         <p class="splash-subhead">Al utilizar esta pagina estas aceptando los <a href="#">terminos y condiciones</a> </p>
@@ -17,9 +46,14 @@
         <a href="{% url 'liquidacion:obra_labor_form' %}" class="pure-button pure-button-primary">Empleado Por Obra Labor</a>
         <a href="{% url 'liquidacion:termino_fijo_form' %}" class="pure-button pure-button-primary">Termino Fijo</a>
         </p>
+        <div id="container"></div>
     </div>
 </div>
 <div class="content-wrapper">
+    <div class="content">
+        <h2>Que es Una Liquidacion Laboral?</h2>
+        <p>En algun momento llega</p>
+    </div>
     <div class="content">
         <h2 class="content-head is-center">Formularios para Liquidacion.</h2>
         <div class="pure-g">
@@ -92,6 +126,8 @@
 
         </div>
     </div>
+
+
 </div>
 
 
